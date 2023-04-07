@@ -137,4 +137,8 @@ h4 {
   line-height: 1.6;
   margin: 0;
 }
+
+.sf-image{
+  object-fit: contain;
+}
 </style>
