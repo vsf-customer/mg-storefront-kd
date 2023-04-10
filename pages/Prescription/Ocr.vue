@@ -199,8 +199,7 @@ export default {
   middleware: 'is-authenticated',
   setup() {
     const { $cookies } = useContext();
-    const { prescription, setPrescription, savePrescription } =
-      usePrescription();
+    const { prescription, setPrescription, savePrescription } = usePrescription();
 
     const { setBackButtonFunction, setHideBackButton } = useUiState();
 
@@ -245,14 +244,12 @@ export default {
     };
 
     const prismValue = (eye) => {
-      const isHorizontal =
-        eye.base?.toUpperCase() === 'IN' || eye.base?.toUpperCase() === 'OUT';
-      const isVertical =
-        eye.base?.toUpperCase() === 'UP' || eye.base?.toUpperCase() === 'DOWN';
+      const isHorizontal = eye.base?.toUpperCase() === 'IN' || eye.base?.toUpperCase() === 'OUT';
+      const isVertical = eye.base?.toUpperCase() === 'UP' || eye.base?.toUpperCase() === 'DOWN';
       return {
-        prismHor: isHorizontal ? eye.prism.toFixed(2) : 0.0,
+        prismHor: isHorizontal ? eye.prism.toFixed(2) : 0,
         baseHor: isHorizontal ? eye.base?.toUpperCase() : '',
-        prismVer: isVertical ? eye.prism.toFixed(2) : 0.0,
+        prismVer: isVertical ? eye.prism.toFixed(2) : 0,
         baseVer: isVertical ? eye.base?.toUpperCase() : '',
       };
     };
