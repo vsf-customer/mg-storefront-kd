@@ -15,7 +15,7 @@ export default {
     const router = useRouter();
 
     const handleContinue = () => {
-      router.push('/prescription');
+      router.push('/default/prescription');
     };
 
     return {

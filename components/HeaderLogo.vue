@@ -34,12 +34,14 @@ export default defineComponent({
   setup() {
     const { config } = useConfig();
 
-    const logoSrc = computed(() => {
-      const baseMediaUrl = config.value.base_media_url;
-      const logo = config.value.header_logo_src;
+    // const logoSrc = computed(() => {
+    //   const baseMediaUrl = config.value.base_media_url;
+    //   const logo = config.value.header_logo_src;
 
-      return baseMediaUrl && logo ? `${baseMediaUrl}logo/${logo}` : '';
-    });
+    //   return baseMediaUrl && logo ? `${baseMediaUrl}logo/${logo}` : '';
+    // });
+
+    const logoSrc = '/icons/jcp_logo.svg';
 
     const logoWidth = computed(
       () => config.value.logo_width || '35',

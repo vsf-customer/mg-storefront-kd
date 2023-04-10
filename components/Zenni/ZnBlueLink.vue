@@ -1,6 +1,6 @@
 <template>
   <button
-    class="blue-link underline font-semibold" 
+    class="blue-link underline"
     v-bind="$attrs"
     @click.prevent="$emit('click')"
   >
@@ -20,8 +20,7 @@ export default {
   },
   emits: ['click'],
   setup() {
-    return {
-    };
+    return {};
   },
 };
 </script>

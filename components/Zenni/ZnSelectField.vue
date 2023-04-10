@@ -57,7 +57,7 @@ export default {
       required: false,
       default: undefined,
     },
-    id: { 
+    id: {
       type: String,
       required: false,
       default: undefined,
@@ -115,7 +115,7 @@ export default {
   emits: ['change'],
   setup(props, { emit }) {
     const getOptionValue = (option) => {
-      if(!option) {
+      if (!option) {
         return null;
       }
       if (typeof option === 'object') {
@@ -125,7 +125,7 @@ export default {
     };
 
     const getOptionLabel = (option) => {
-      if(!option) {
+      if (!option) {
         return null;
       }
       if (typeof option === 'object') {
@@ -193,7 +193,7 @@ export default {
     };
 
     const OpenIndicator = {
-      render: createElement => createElement(SfIcon, {
+      render: (createElement) => createElement(SfIcon, {
         props: {
           icon: 'chevron_down',
           size: 'xxs',
@@ -214,9 +214,12 @@ export default {
 </script>
 
 <style lang="scss">
+:root {
+  --vs-dropdown-option--active-bg: #ED383E;
+}
 .v-select {
   .vs__dropdown-toggle {
-    @apply h-12 rounded-lg;
+    @apply h-12 rounded-none;
     border: 1px solid #666666;
 
   }
@@ -233,7 +236,7 @@ export default {
   ::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
   @apply text-gray-400;
   opacity: 1; /* Firefox */
-  } 
+  }
 
   :-ms-input-placeholder { /* Internet Explorer 10-11 */
     @apply text-gray-400;

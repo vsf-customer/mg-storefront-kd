@@ -14,7 +14,7 @@
     >
       <div
         ref="dualSelectElm"
-        class="flex rounded-lg dual-select items-center cursor-pointer h-12 px-1"
+        class="flex dual-select items-center cursor-pointer h-12 px-1"
         @click.prevent="toggleActive(true)"
       >
         <div
@@ -24,7 +24,7 @@
           {{ valueData }}
         </div>
         <div
-          class="h-full w-6 flex-shrink-0 flex items-center justify-center rounded-r-lg"
+          class="h-full w-6 flex-shrink-0 flex items-center justify-center"
           @click="toggleActive(!isActive)"
         >
           <SfIcon
@@ -134,8 +134,7 @@ export default {
     const selectedValue = computed(() => props.value || valueData);
     const dualDropdownStyle = computed(() => {
       if (dualSelectElm.value) {
-        const bottom =
-          window.innerHeight - dualSelectElm.value.getBoundingClientRect().top;
+        const bottom = window.innerHeight - dualSelectElm.value.getBoundingClientRect().top;
         if (bottom > 300) return 'dp-bottom';
       }
       return 'dp-top';
@@ -151,7 +150,7 @@ export default {
 
     const setValue = (val) => {
       emit('change', val.toFixed(2));
-      if(isActive.value) toggleActive(false);
+      if (isActive.value) toggleActive(false);
     };
 
     const onInput = (e) => {
@@ -216,8 +215,7 @@ export default {
     background: #fafafa;
   }
   .selected-value {
-    background: #005769;
-    color: white;
+    @apply bg-active text-white;
   }
 }
 </style>

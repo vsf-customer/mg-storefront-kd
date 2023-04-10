@@ -3,12 +3,11 @@
     v-bind="$attrs"
     class="
       bg-white
-      rounded-full
+      uppercase
       py-5
-      font-semibold
       leading-6
-      text-primary text-xl
-      border-secondary
+      text-active text-xl
+      border-active
       border-solid
       border
     "
@@ -32,11 +31,9 @@ export default {
   },
   emits: ['click'],
   setup(props) {
-    const widthStyle = computed(() => {
-      return {
-        width: props.width,
-      };
-    });
+    const widthStyle = computed(() => ({
+      width: props.width,
+    }));
 
     return {
       widthStyle,

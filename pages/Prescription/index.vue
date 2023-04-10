@@ -1,24 +1,21 @@
 <template>
   <div
-    class="prescription-container"
+    class="w-full max-w-[700px] mx-auto raleway"
     data-test="prescription-main"
   >
     <div class="step">
       <div class="p-4">
-        <p class="text-2xl font-semibold mt-4">
-          Next, add your prescription
-        </p>
-        <div class="flex items-center mt-4 sm:mt-10">
-          <p class="text-lg font-semibold mr-3">
-            Step 3
+        <div>
+          <h3 class="text-2xl">
+            Add your prescription
+          </h3>
+          <p
+            class="my-7"
+          >
+            Use your camera to take a picture of your prescription. You can also upload a file or type in the details.
           </p>
-          <div class="grow h-px bg-divider" />
         </div>
-        <div class="mt-4 sm:mt-10 text-lg">
-          Use your camera to take a picture of your prescription. You can also
-          upload a file or type in the details.
-        </div>
-        <div class="button-group mt-6 sm:mt-10">
+        <div class="py-10 space-y-5 sm:space-y-10 flex flex-col items-center mt-6 sm:mt-10">
           <zn-button
             data-test="btnTakePicture"
             @click="goToOCR"
@@ -40,9 +37,6 @@
             Enter details instead
           </zn-secondary-button>
         </div>
-        <p class="text-lg text-center">
-          <strong>Note:</strong> use a valid prescription for accuracy
-        </p>
       </div>
     </div>
   </div>
@@ -63,16 +57,16 @@ export default {
 
     const goToOCR = () => {
       sessionStorage.removeItem('PRESCRIPTION_IMAGE');
-      router.push('/prescription/ocr');
+      router.push('/default/prescription/ocr');
     };
 
     const goToUploadFile = () => {
       sessionStorage.removeItem('PRESCRIPTION_IMAGE');
-      router.push('/prescription/upload');
+      router.push('/default/prescription/upload');
     };
 
     const goToManual = () => {
-      router.push('/prescription/manual');
+      router.push('/default/prescription/manual');
     };
 
     return {

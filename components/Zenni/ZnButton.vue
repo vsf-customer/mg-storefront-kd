@@ -1,6 +1,6 @@
 <template>
   <button
-    class="bg-active rounded-full font-semibold leading-6 text-gray-700 text-xl h-[64px] md:h-[60px]"
+    class="bg-active uppercase leading-6 text-white text-xl w-[343px] h-[51px] md:h-[60px]"
     :style="widthStyle"
     :disabled="disabled"
     v-bind="$attrs"
@@ -28,11 +28,9 @@ export default {
   },
   emits: ['click'],
   setup(props) {
-    const widthStyle = computed(() => {
-      return {
-        width: props.width,
-      };
-    });
+    const widthStyle = computed(() => ({
+      width: props.width,
+    }));
 
     return {
       widthStyle,

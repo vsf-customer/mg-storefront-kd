@@ -1,3 +1,5 @@
+import fs from "fs";
+import path from "path";
 import middleware from "./middleware.config";
 import { getRoutes } from "./routes";
 import { probeGoogleFontsApi, GOOGLE_FONT_API_URL } from "./modules/core/GoogleFontsAPI/probeGoogleFontsApi.ts";
@@ -22,8 +24,17 @@ const {
   },
 } = middleware;
 
+const https =
+  (process.env.NODE_ENV === "development" || process.env.VSF_NUXT_APP_ENV === "development") && process.env.HTTPS_KEY_FILE
+    ? {
+        key: fs.readFileSync(path.resolve(process.env.HTTPS_KEY_FILE)),
+        cert: fs.readFileSync(path.resolve(process.env.HTTPS_CERT_FILE)),
+      }
+    : null;
+
 export default async () => {
   const baseConfig = {
+    css: ["~/assets/styles.scss", "vue-select/dist/vue-select.css"],
     ssr: true,
     dev: process.env.VSF_NUXT_APP_ENV !== "production",
     publicRuntimeConfig: {
@@ -33,9 +44,10 @@ export default async () => {
     server: {
       port: process.env.VSF_NUXT_APP_PORT,
       host: process.env.VSF_NUXT_APP_HOST || "0.0.0.0",
+      https,
     },
     head: {
-      title: process.env.npm_package_name || "",
+      title: "Eye Glasses, Sunglasses &amp; Contacts Lenses | JCPenney Optical",
       meta: [
         { charset: "utf8" },
         {
@@ -118,7 +130,8 @@ export default async () => {
       "vue-scrollto/nuxt",
       "@vue-storefront/middleware/nuxt",
       "@nuxt/image",
-      "@nuxtjs/tailwindcss",
+      "@nuxtjs/tailwindcss", // See https://github.com/nuxt/nuxt/issues/15507#issuecomment-1397382577 to fix the issue with tailwindcss
+      "vue-web-cam/nuxt",
       [
         "@vue-storefront/cache/nuxt",
         {
@@ -226,7 +239,14 @@ export default async () => {
       },
       transpile: ["vee-validate", "lodash-es", /^@storefront-ui/, "@glidejs/glide", "axios"],
     },
-    plugins: ["~/plugins/token-expired", "~/plugins/i18n", "~/plugins/fcPlugin", "~/plugins/dompurify", "~/plugins/storeConfigPlugin"],
+    plugins: [
+      "~/plugins/token-expired",
+      "~/plugins/i18n",
+      "~/plugins/fcPlugin",
+      "~/plugins/dompurify",
+      "~/plugins/storeConfigPlugin",
+      { src: "~/plugins/v-click-outside.js", ssr: false },
+    ],
     serverMiddleware: [
       "~/serverMiddleware/body-parser.js",
       {

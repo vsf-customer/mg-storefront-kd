@@ -36,14 +36,14 @@
             </div>
           </div>
           <div class="modal-footer">
-            <zn-button
+            <!-- <zn-button
               width="100%"
               class="w-full"
               :is-secondary="true"
               @click="goToManual"
             >
               Enter details
-            </zn-button>
+            </zn-button> -->
             <zn-blue-link
               class="text-xl"
               @click="handleClose"
@@ -60,8 +60,9 @@
 
 <script>
 import { useRouter } from '@nuxtjs/composition-api';
-import ZnButton from '../../components/Zenni/ZnButton.vue';
+import ZnButton from '../Zenni/ZnButton.vue';
 import ZnBlueLink from '../Zenni/ZnBlueLink.vue';
+
 export default {
   name: 'PDGuideModal',
   components: { ZnButton, ZnBlueLink },

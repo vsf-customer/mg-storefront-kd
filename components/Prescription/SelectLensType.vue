@@ -1,12 +1,14 @@
 <template>
-  <div class="w-full max-w-[500px]">
+  <div class="w-full max-w-[700px] mx-auto raleway">
     <div class="px-4 py-3">
       <div>
-        <h3 class="font-semibold text-2xl">
-          Choose your lens type
+        <h3 class="text-2xl">
+          Add your prescription
         </h3>
-        <p class="font-normal mt-2">
-          Select from your prescription.
+        <p
+          class="my-7"
+        >
+          Use your camera to take a picture of your prescription. You can also upload a file or type in the details.
         </p>
       </div>
       <ul
@@ -15,7 +17,7 @@
         <li
           v-for="lensType in lensTypes"
           :key="lensType.value"
-          class="cursor-pointer relative after:absolute after:border after:border-gray-200 after:rounded-xl after:inset-0 rounded-xl shadow-lg text-xl font-semibold flex items-center justify-center px-3 h-36 sm:h-32 w-full"
+          class="cursor-pointer relative after:absolute after:border after:border-gray-200 after:rounded-xl after:inset-0 rounded-xl shadow-lg text-xl font-semibold flex items-center justify-center px-3 h-36 sm:h-32 w-[327px] mx-auto"
           :class="{ 'after:border-[3px] after:border-teals' : filters.lensType === lensType.value }"
           data-test="div-lens-type"
           :data-test-id="lensType.value + '_item'"
@@ -124,3 +126,5 @@ export default {
   },
 };
 </script>
+<style>
+</style>

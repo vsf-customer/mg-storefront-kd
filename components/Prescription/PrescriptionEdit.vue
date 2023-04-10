@@ -1,14 +1,14 @@
 <template>
   <div
-    class="prescription-edit-wrapper"
+    class="prescription-edit-wrapper raleway"
     data-test="prescription-edit-wrapper"
   >
     <slot name="header" />
-    <p class="text-lg font-semibold mt-4">
-      Enter Pupillary Distance (PD)
+    <p class="text-lg mt-4">
+      Enter Pupillary Distance (PD) Measurement
     </p>
     <div
-      class="radio-button-group grid grid-rows-1 grid-cols-2 gap-3 w-full mt-[22px]"
+      class="radio-button-group grid grid-rows-1 grid-cols-3 gap-3 w-full mt-[22px]"
     >
       <div class="first-column flex flex-col items-start justify-start">
         <div class="radio-button flex flex-center-align">
@@ -19,6 +19,7 @@
             name="qtdNumber"
             value="1"
             data-test="oneNumber"
+            class="accent-active"
           >
           <label
             class="ml-2"
@@ -57,6 +58,7 @@
             name="qtdNumber"
             value="2"
             data-test="twoNumber"
+            class="accent-active"
           >
           <label
             class="ml-2"
@@ -83,7 +85,7 @@
       @click="showModal = true"
     >
       <button class="underline !text-secondary">
-        How to measure your PD?
+        What is PD?
       </button>
       <img
         src="/icons/question-circle.png"
@@ -169,25 +171,24 @@
     <div class="mt-5 mb-6 h-px bg-divider" />
 
     <div v-if="prescriptionData.lensType === 'SingleVision'">
-      <div
-        class="prism-notice px-3 py-2"
-        data-test="prismNotice"
-      >
-        <span class="font-bold">Note:</span> If your prescription includes prism values, you will need to add them.
-      </div>
       <button
         type="button"
-        class="flex items-center mt-4 !text-secondary space-x-2 cursor-pointer"
         data-test="addPrismValues"
-        :class="{
-          '!text-gray-500': isPrismFormDisabled,
-          '!pointer-events-none': isPrismFormDisabled,
-          'cursor-none': isPrismFormDisabled,
-        }"
+        :class="[
+          isPrismFormDisabled ? '!text-gray-500 cursor-none pointer-events-none': '!text-secondary cursor-pointer',
+        ]"
+        class="flex items-center mt-4  space-x-2 "
         @click="setShowPrismForm"
       >
         <span class="underline">{{ showPrismForm ? 'Remove Prism Values' : 'Add Prism Values' }}</span>
         <img
+          v-if="!isPrismFormDisabled"
+          src="/icons/question-circle.png"
+          class="w-4 h-4"
+          alt="question-circle"
+        >
+        <img
+          v-else
           src="/icons/question-icon-disabled.png"
           class="w-6 h-6"
           alt="question-circle-disabled"
@@ -231,7 +232,7 @@
         />
       </div>
     </div>
-    <div class="button-group">
+    <div class="button-group mt-10">
       <zn-button
         data-test="savePrescription"
         @click="handlePrimaryButtonClicked"
@@ -354,7 +355,7 @@ export default {
     },
     primaryButtonLabel: {
       type: String,
-      default: 'Save Prescription',
+      default: 'Confirm Prescription',
     },
     showSecondaryButton: {
       type: Boolean,
@@ -368,10 +369,9 @@ export default {
   emits: ['change', 'primary-button-clicked', 'secondary-button-clicked'],
   setup(props, { emit }) {
     const { $axios } = useContext();
-    const { prescription: prescriptionState, setPrescription, resetPrism } =
-      usePrescription();
+    const { prescription: prescriptionState, setPrescription, resetPrism } = usePrescription();
     const showModal = ref(false);
-    const prescriptionData = ref(Object.assign({}, props.prescription));
+    const prescriptionData = ref({ ...props.prescription });
     const showPrismForm = ref(false);
     const optionsList = [];
 
@@ -382,11 +382,10 @@ export default {
     const warningMessages = ref([]);
 
     const isPrismFormDisabled = computed(
-      () =>
-        (prescriptionState.value.od.sphere === 0 &&
-          prescriptionState.value.os.sphere === 0) ||
-        (prescriptionState.value.od.sphere === '0.00' &&
-          prescriptionState.value.os.sphere === '0.00'),
+      () => (prescriptionState.value.od.sphere === 0
+          && prescriptionState.value.os.sphere === 0)
+        || (prescriptionState.value.od.sphere === '0.00'
+          && prescriptionState.value.os.sphere === '0.00'),
     );
 
     for (let i = 40; i <= 78; i += 1) {
@@ -405,11 +404,10 @@ export default {
 
     const hasOsNvAddOnly = computed(() => {
       if (
-        props.prescription &&
-        !props.prescription.od.add &&
-        props.prescription.os.add
-      )
-        return true;
+        props.prescription
+        && !props.prescription.od.add
+        && props.prescription.os.add
+      ) { return true; }
       return false;
     });
 
@@ -435,18 +433,16 @@ export default {
       },
     );
 
-    const hasValue = (value) =>
-      value !== undefined &&
-      value !== null &&
-      value !== '' &&
-      value !== '0' &&
-      value !== '0.00' &&
-      value !== 0;
-    const hasPrismValue = (value) =>
-      hasValue(value?.od?.prismHor) ||
-      hasValue(value?.os?.prismHor) ||
-      hasValue(value?.od?.prismVer) ||
-      hasValue(value?.os?.prismVer);
+    const hasValue = (value) => value !== undefined
+      && value !== null
+      && value !== ''
+      && value !== '0'
+      && value !== '0.00'
+      && value !== 0;
+    const hasPrismValue = (value) => hasValue(value?.od?.prismHor)
+      || hasValue(value?.os?.prismHor)
+      || hasValue(value?.od?.prismVer)
+      || hasValue(value?.os?.prismVer);
 
     onMounted(() => {
       if (hasPrismValue(prescriptionState.value)) showPrismForm.value = true;
@@ -503,8 +499,8 @@ export default {
       }
 
       if (
-        prescriptionData.value.od.sphere === '0.00' ||
-        prescriptionData.value.od.sphere === 0
+        prescriptionData.value.od.sphere === '0.00'
+        || prescriptionData.value.od.sphere === 0
       ) {
         prescriptionData.value = {
           ...prescriptionData.value,
@@ -519,8 +515,8 @@ export default {
       }
 
       if (
-        prescriptionData.value.os.sphere === '0.00' ||
-        prescriptionData.value.os.sphere === 0
+        prescriptionData.value.os.sphere === '0.00'
+        || prescriptionData.value.os.sphere === 0
       ) {
         prescriptionData.value = {
           ...prescriptionData.value,
@@ -581,37 +577,33 @@ export default {
     const handlePrimaryButtonClicked = async () => {
       let savedPrescription = prescriptionData.value;
 
-      if (prescriptionData.value.lensType === 'SingleVision') {
-        savedPrescription = {
-          ...prescriptionData.value,
-          od: {
-            ...prescriptionData.value.od,
-            add: 0,
-          },
-          os: {
-            ...prescriptionData.value.os,
-            add: 0,
-          },
-        };
-      } else {
-        savedPrescription = {
-          ...prescriptionData.value,
-          od: {
-            ...prescriptionData.value.od,
-            prismHor: 0,
-            prismVer: 0,
-            baseHor: '',
-            baseVer: '',
-          },
-          os: {
-            ...prescriptionData.value.os,
-            prismHor: 0,
-            prismVer: 0,
-            baseHor: '',
-            baseVer: '',
-          },
-        };
-      }
+      savedPrescription = prescriptionData.value.lensType === 'SingleVision' ? {
+        ...prescriptionData.value,
+        od: {
+          ...prescriptionData.value.od,
+          add: 0,
+        },
+        os: {
+          ...prescriptionData.value.os,
+          add: 0,
+        },
+      } : {
+        ...prescriptionData.value,
+        od: {
+          ...prescriptionData.value.od,
+          prismHor: 0,
+          prismVer: 0,
+          baseHor: '',
+          baseVer: '',
+        },
+        os: {
+          ...prescriptionData.value.os,
+          prismHor: 0,
+          prismVer: 0,
+          baseHor: '',
+          baseVer: '',
+        },
+      };
 
       const { data: results } = await $axios.post(
         '/validatePrescriptionAndLens',
@@ -621,9 +613,9 @@ export default {
       const lensTypeValidationResults = results.validateLensResults;
 
       if (
-        !prescriptionValidateResults.warning &&
-        prescriptionValidateResults.success &&
-        lensTypeValidationResults.hasLens
+        !prescriptionValidateResults.warning
+        && prescriptionValidateResults.success
+        && lensTypeValidationResults.hasLens
       ) {
         setPrescription(prescriptionData.value);
         emit('primary-button-clicked');
@@ -635,9 +627,7 @@ export default {
 
       if (!prescriptionValidateResults.success) {
         errorMessages.value = flattenDeep(
-          Object.keys(prescriptionValidateResults.errorMessages).map((key) => {
-            return prescriptionValidateResults.errorMessages[key];
-          }),
+          Object.keys(prescriptionValidateResults.errorMessages).map((key) => prescriptionValidateResults.errorMessages[key]),
         );
         if (errorMessages.value.length > 0) {
           showErrorModal.value = true;
@@ -654,9 +644,7 @@ export default {
       if (prescriptionValidateResults.warning) {
         warningMessages.value = flattenDeep(
           Object.keys(prescriptionValidateResults.warningMessages).map(
-            (key) => {
-              return prescriptionValidateResults.warningMessages[key];
-            },
+            (key) => prescriptionValidateResults.warningMessages[key],
           ),
         );
         if (warningMessages.value.length > 0) {
@@ -675,7 +663,7 @@ export default {
     };
 
     const setShowPrismForm = () => {
-      if(!showPrismForm.value) {
+      if (!showPrismForm.value) {
         showPrismForm.value = true;
       } else {
         resetPrism();
@@ -712,7 +700,7 @@ export default {
 
 <style lang="scss">
 .prescription-edit-wrapper {
-  @apply h-full w-full;
+  @apply h-full w-full max-w-[700px] mx-auto;
 
   .zn-dual-select label,
   .zn-select-field label {

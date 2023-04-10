@@ -196,12 +196,10 @@ export default {
     ZnSmallModal,
     ConfirmPrescriptionModal,
   },
-  middleware: 'is-authenticated',
+  // middleware: 'is-authenticated',
   setup() {
     const { $cookies } = useContext();
     const { prescription, setPrescription, savePrescription } = usePrescription();
-
-    const { setBackButtonFunction, setHideBackButton } = useUiState();
 
     const camera = ref(null);
     const imageFile = ref(null);
@@ -266,13 +264,13 @@ export default {
         process.env.GOOGLE_OCR_API_ENABLED ? 'image_file' : 'files',
         file,
       );
-      
+
       const result = process.env.GOOGLE_OCR_API_ENABLED
         ? await fetch('/aiml-ocr-prescription', {
           method: 'POST',
           body: formData,
           headers: {
-            Authorization: 'Bearer ' + $cookies.get('token'),
+            Authorization: `Bearer ${$cookies.get('token')}`,
           },
         })
         : await fetch(
@@ -317,8 +315,7 @@ export default {
 
     const showError = () => {
       showFileError.value = true;
-      fileErrorMsg.value =
-        'Failed to parse prescription! Please take a correct new picture again.';
+      fileErrorMsg.value = 'Failed to parse prescription! Please take a correct new picture again.';
       takePhotoAgain();
     };
 
@@ -365,8 +362,6 @@ export default {
       imageFile.value = null;
       router.push('/prescription');
     };
-    setHideBackButton(false);
-    setBackButtonFunction(goToHome);
 
     onBeforeMount(async () => {
       imageFile.value = sessionStorage.getItem('PRESCRIPTION_IMAGE');
@@ -386,11 +381,7 @@ export default {
     });
 
     watch(devices, () => {
-      if (devices.value.length > 1) {
-        deviceId.value = devices.value[1]?.deviceId;
-      } else {
-        deviceId.value = head(devices.value)?.deviceId;
-      }
+      deviceId.value = devices.value.length > 1 ? devices.value[1]?.deviceId : head(devices.value)?.deviceId;
     });
 
     return {

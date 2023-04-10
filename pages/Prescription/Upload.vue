@@ -1,6 +1,6 @@
 <template>
   <div
-    class="upload-prescription-container"
+    class="w-full max-w-[700px] mx-auto raleway"
     data-test="upload-prescription-container"
   >
     <div
@@ -196,11 +196,10 @@ export default {
     ZnSmallModal,
     ConfirmPrescriptionModal,
   },
-  middleware: 'is-authenticated',
+  // middleware: 'is-authenticated',
   setup() {
     const { $cookies } = useContext();
-    const { prescription, setPrescription, savePrescription } =
-      usePrescription();
+    const { prescription, setPrescription, savePrescription } = usePrescription();
     const imageFile = ref(null);
     const activeStep = ref(1);
     const inputFile = ref(null);
@@ -215,19 +214,15 @@ export default {
 
     const router = useRouter();
 
-    const { setBackButtonFunction, setHideBackButton } = useUiState();
 
     const goToHome = () => {
       imageFile.value = null;
       router.push('/prescription');
     };
-    setHideBackButton(false);
-    setBackButtonFunction(goToHome);
 
     const showError = () => {
       showFileError.value = true;
-      fileErrorMsg.value =
-        'Failed to parse prescription! Please upload correct file again.';
+      fileErrorMsg.value = 'Failed to parse prescription! Please upload correct file again.';
       resetUploadValues();
     };
     const resetUploadValues = () => {
@@ -250,12 +245,11 @@ export default {
         ];
         const fileSize = (file.size / 1024 / 1024).toFixed(4);
         /* limit file size as 20 MB */
-        if (fileSize > 20 || !acceptedFileTypes.includes(file['type'])) {
+        if (fileSize > 20 || !acceptedFileTypes.includes(file.type)) {
           showFileError.value = true;
-          fileErrorMsg.value =
-            fileSize > 20
-              ? 'Maximum file size is 20MB!'
-              : 'Please upload valid image file!';
+          fileErrorMsg.value = fileSize > 20
+            ? 'Maximum file size is 20MB!'
+            : 'Please upload valid image file!';
           return;
         }
         showFileError.value = false;
@@ -264,69 +258,14 @@ export default {
     };
 
     const prismValue = (eye) => {
-      const isHorizontal =
-        eye.base?.toUpperCase() === 'IN' || eye.base?.toUpperCase() === 'OUT';
-      const isVertical =
-        eye.base?.toUpperCase() === 'UP' || eye.base?.toUpperCase() === 'DOWN';
+      const isHorizontal = eye.base?.toUpperCase() === 'IN' || eye.base?.toUpperCase() === 'OUT';
+      const isVertical = eye.base?.toUpperCase() === 'UP' || eye.base?.toUpperCase() === 'DOWN';
       return {
-        prismHor: isHorizontal ? eye.prism.toFixed(2) : 0.0,
+        prismHor: isHorizontal ? eye.prism.toFixed(2) : 0,
         baseHor: isHorizontal ? eye.base?.toUpperCase() : '',
-        prismVer: isVertical ? eye.prism.toFixed(2) : 0.0,
+        prismVer: isVertical ? eye.prism.toFixed(2) : 0,
         baseVer: isVertical ? eye.base?.toUpperCase() : '',
       };
-    };
-
-    const getPrescriptionDataFromFile = async () => {
-      try {
-        const file = uploadedFile.value;
-        const formData = new FormData();
-        formData.append(
-          process.env.GOOGLE_OCR_API_ENABLED ? 'image_file' : 'files',
-          file,
-        );
-        const result = process.env
-          .GOOGLE_OCR_API_ENABLED
-          ? await fetch('/aiml-ocr-prescription', {
-            method: 'POST',
-            body: formData,
-            headers: {
-              Authorization: 'Bearer ' + $cookies.get('token'),
-            },
-          })
-          : await fetch(`${process.env.prescriptionUrl}/api/v1/ocr/prescription`, {
-            method: 'POST',
-            body: formData,
-          });
-        const { prescription: scannedPrescriptionData } = await result.json();
-        if (!scannedPrescriptionData) return false;
-        setPrescription({
-          od: {
-            sphere: scannedPrescriptionData?.od?.sphere?.toFixed(2) || 0,
-            cylinders: scannedPrescriptionData?.od?.cylinders?.toFixed(2) || 0,
-            axis: scannedPrescriptionData?.od?.axis || 0,
-            add: scannedPrescriptionData?.od?.add || '0.00',
-            ...prismValue(scannedPrescriptionData?.od),
-            pd: scannedPrescriptionData?.od?.pd || 0,
-          },
-          os: {
-            sphere: scannedPrescriptionData?.os?.sphere?.toFixed(2) || 0,
-            cylinders: scannedPrescriptionData?.os?.cylinders?.toFixed(2) || 0,
-            axis: scannedPrescriptionData?.os?.axis || 0,
-            add: scannedPrescriptionData?.os?.add || '0.00',
-            ...prismValue(scannedPrescriptionData?.os),
-            pd: scannedPrescriptionData?.os?.pd || 0,
-          },
-          pd: scannedPrescriptionData?.pd || prescription.value.pd || 0,
-          lensType:
-            scannedPrescriptionData?.od?.pd && scannedPrescriptionData?.os?.pd
-              ? 'Bifocals'
-              : prescription.value.lensType || 'SingleVision',
-        });
-        return true;
-      } catch (err) {
-        console.error(err);
-        return false;
-      }
     };
 
     const saveImgWithCompressOption = async () => {
@@ -344,33 +283,33 @@ export default {
         );
       }
       if (!fileWithCompressOption) return;
-      let imageReader = new FileReader();
-      imageReader.onload = async (e) => {
+      const imageReader = new FileReader();
+      imageReader.addEventListener('load', async (e) => {
         imageFile.value = e.target.result;
         sessionStorage.setItem('PRESCRIPTION_IMAGE', e.target.result);
-      };
+      });
       imageReader.readAsDataURL(fileWithCompressOption);
     };
-
-    const onUpload = async () => {
-      try {
-        isLoading.value = true;
-        activeStep.value = 2;
-        const file = inputFile?.value?.files[0];
-        uploadedFile.value = file;
-        const success = await getPrescriptionDataFromFile();
-        if (!success) {
-          showError();
-        } else {
-          await saveImgWithCompressOption();
-        }
-      } catch (error) {
-        showError();
-        console.error(error);
-      } finally {
-        isLoading.value = false;
-      }
-    };
+    const onUpload = () => {}
+    // const onUpload = async () => {
+    //   try {
+    //     isLoading.value = true;
+    //     activeStep.value = 2;
+    //     const file = inputFile?.value?.files[0];
+    //     uploadedFile.value = file;
+    //     const success = await getPrescriptionDataFromFile();
+    //     if (!success) {
+    //       showError();
+    //     } else {
+    //       await saveImgWithCompressOption();
+    //     }
+    //   } catch (error) {
+    //     showError();
+    //     console.error(error);
+    //   } finally {
+    //     isLoading.value = false;
+    //   }
+    // };
 
     const showConfirmationDialog = (flag = true) => {
       showConfirmPrescription.value = flag;

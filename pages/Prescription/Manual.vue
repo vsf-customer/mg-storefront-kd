@@ -1,18 +1,18 @@
 <template>
   <div
-    class="manual-type-wrapper"
+    class="manual-type-wrapper raleway"
     data-test="manual-type-wrapper"
   >
     <PrescriptionEdit
       :prescription="prescription"
-      primary-button-label="Save prescription"
+      primary-button-label="Confirm prescription"
       @change="setPrescription"
       @primary-button-clicked="handleSavePrescription"
     >
       <template #header>
-        <h2 class="text-2xl font-semibold mt-4">
-          Type in your prescription
-        </h2>
+        <h3 class="text-2xl my-4">
+          Please confirm prescription details
+        </h3>
       </template>
     </PrescriptionEdit>
   </div>
@@ -31,7 +31,7 @@ export default defineComponent({
   components: {
     PrescriptionEdit,
   },
-  middleware: 'is-authenticated',
+  // middleware: 'is-authenticated',
   setup() {
     const { prescription, setPrescription, savePrescription } = usePrescription();
     const router = useRouter();
