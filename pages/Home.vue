@@ -56,9 +56,9 @@
         class="call-to-action"
       />
     </LoadWhenVisible>
-    <LoadWhenVisible>
+    <!-- <LoadWhenVisible>
       <InstagramFeed />
-    </LoadWhenVisible>
+    </LoadWhenVisible> -->
     <LoadWhenVisible>
       <MobileStoreBanner />
     </LoadWhenVisible>
@@ -188,9 +188,9 @@ export default defineComponent({
       },
     ]);
     const callToAction = ref({
-      title: app.i18n.t('Subscribe to Newsletters'),
-      description: app.i18n.t('Be aware of upcoming sales and events. Receive gifts and special offers!'),
-      buttonText: app.i18n.t('Subscribe'),
+      title: app.i18n.t('Stay connected to Zenni.'),
+      description: app.i18n.t('Sign up for exclusive offers and news from us'),
+      buttonText: app.i18n.t('Sign Up'),
       imageSrc: '/homepage/newsletter.png',
       imageWidth: isDesktop ? 1240 : 400,
       imageHeight: isDesktop ? 202 : 200,
