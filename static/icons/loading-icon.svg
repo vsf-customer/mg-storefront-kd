@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 150 150">
+    <path d="M 80 10
+           A 70 70 0 1 1 23.368810393753677 38.855032339526886
+           A 8.75 8.75 0 1 1 37.52660779531526 49.14127425464517
+           A 52.5 52.5 0 1 0 80 27.5
+           A 8.75 8.75 0 1 1 80 10
+           Z" fill="#ED383E">
+        <animateTransform
+            attributeName="transform"
+            type="rotate"
+            from="0 80 80"
+            to="360 80 80"
+            dur="1s"
+            repeatCount="indefinite"
+        />
+    </path>
+</svg>

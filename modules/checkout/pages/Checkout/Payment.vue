@@ -136,7 +136,7 @@
         <div class="summary__action">
           <SfButton
             type="button"
-            class="sf-button color-secondary summary__back-button"
+            class="sf-button color-primary summary__back-button"
             @click="$router.push(`${localePath('/checkout/billing')}`)"
           >
             {{ $t('Go back') }}
@@ -340,6 +340,9 @@ export default defineComponent({
   &__action-button {
     width: 100%;
     margin: var(--spacer-sm) 0 0 0;
+    --button-background: var(--c-white);
+    --button-color: var(--c-dark-variant);
+    border: 2px solid var(--c-dark-variant);
     @include for-desktop {
       margin: 0 var(--spacer-xl) 0 0;
       width: auto;

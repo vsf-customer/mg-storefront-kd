@@ -45,6 +45,14 @@
         <template #price>
           <CategoryProductPrice :product="product" />
         </template>
+        <template #add-to-cart>
+          <SfButton
+            class="sf-add-to-cart__button"
+            @click="$emit('click:add-to-cart', { product, quantity: 1 })"
+          >
+            {{ $t('Add to cart') }}
+          </SfButton>
+        </template>
         <template #actions>
           <SfButton
             v-if="isAuthenticated"

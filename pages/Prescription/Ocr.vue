@@ -1,11 +1,11 @@
 <template>
   <div
-    class="w-full h-full bg-white"
+    class="w-full max-w-[700px] mx-auto raleway h-screen"
     data-test="ocr-type-wrapper"
   >
     <div
       v-if="isLoading"
-      class="flex items-center justify-center h-full"
+      class="flex items-center justify-center h-screen w-full"
       data-test="divLoading"
     >
       <img
@@ -35,14 +35,11 @@
               >
             </div>
           </div>
-          <h1
-            class="modal-title text-2xl font-semibold px-3"
-            data-test="headerScanPrescription"
-          >
+          <h3 class="text-2xl">
             Scan prescription
-          </h1>
+          </h3>
           <div
-            class="mt-4 px-3 text-lg"
+            class="mt-4"
             data-test="prescriptionInformation"
           >
             Center the prescription information within the grid and take a
@@ -223,7 +220,7 @@ export default {
     const closeModal = () => {
       imageFile.value = null;
       deviceId.value = null;
-      router.push('/prescription');
+      router.push('/default/prescription');
     };
 
     const onCameras = (cameras) => {
@@ -252,88 +249,29 @@ export default {
       };
     };
 
-    const getPrescriptionDataFromFile = async () => {
-      const formData = new FormData();
-      const imageResponse = await fetch(imageFile.value);
-      const imageBlob = await imageResponse.blob();
-      const file = new File([imageBlob], 'Captured File', {
-        type: 'image/jpeg',
-      });
-
-      formData.append(
-        process.env.GOOGLE_OCR_API_ENABLED ? 'image_file' : 'files',
-        file,
-      );
-
-      const result = process.env.GOOGLE_OCR_API_ENABLED
-        ? await fetch('/aiml-ocr-prescription', {
-          method: 'POST',
-          body: formData,
-          headers: {
-            Authorization: `Bearer ${$cookies.get('token')}`,
-          },
-        })
-        : await fetch(
-          `${process.env.prescriptionUrl}/api/v1/ocr/prescription`,
-          {
-            method: 'POST',
-            body: formData,
-          },
-        );
-
-      const { prescription: scannedPrescriptionData } = await result.json();
-
-      if (!scannedPrescriptionData) {
-        return false;
-      }
-
-      setPrescription({
-        od: {
-          sphere: scannedPrescriptionData?.od?.sphere?.toFixed(2) || 0,
-          cylinders: scannedPrescriptionData?.od?.cylinders?.toFixed(2) || 0,
-          axis: scannedPrescriptionData?.od?.axis || 0,
-          add: scannedPrescriptionData?.od?.add || 0,
-          ...prismValue(scannedPrescriptionData?.od),
-          pd: scannedPrescriptionData?.od?.pd || 0,
-        },
-        os: {
-          sphere: scannedPrescriptionData?.os?.sphere?.toFixed(2) || 0,
-          cylinders: scannedPrescriptionData?.os?.cylinders?.toFixed(2) || 0,
-          axis: scannedPrescriptionData?.os?.axis || 0,
-          add: scannedPrescriptionData?.os?.add || 0,
-          ...prismValue(scannedPrescriptionData?.os),
-          pd: scannedPrescriptionData?.os?.pd || 0,
-        },
-        pd: scannedPrescriptionData?.pd || prescription.value.pd || 0,
-        lensType:
-          scannedPrescriptionData?.od?.pd && scannedPrescriptionData?.os?.pd
-            ? 'Bifocals'
-            : prescription.value.lensType || 'SingleVision',
-      });
-      return true;
-    };
-
-    const showError = () => {
-      showFileError.value = true;
-      fileErrorMsg.value = 'Failed to parse prescription! Please take a correct new picture again.';
-      takePhotoAgain();
-    };
-
     const onCapture = async () => {
       try {
         isLoading.value = true;
         const image = camera?.value?.capture();
         imageFile.value = image;
         sessionStorage.setItem('PRESCRIPTION_IMAGE', image);
-        const success = await getPrescriptionDataFromFile();
-
-        if (!success) {
-          showError();
-        } else {
-          activeStep.value = 2;
-        }
+        setPrescription({
+          ...prescription.value,
+          pd: 65,
+          od: {
+            ...prescription.value.od,
+            sphere: '0.25',
+          },
+          os: {
+            ...prescription.value.os,
+            sphere: '0.25',
+          },
+        });
+        setTimeout(() => {
+          isLoading.value = false;
+          router.push({ path: '/default/prescription' });
+        }, 1000);
       } catch (error) {
-        showError();
         console.error(error);
       } finally {
         isLoading.value = false;
@@ -346,8 +284,7 @@ export default {
 
     const onConfirm = async () => {
       showConfirmationDialog(false);
-      await savePrescription();
-      router.push('/products/list');
+      savePrescription();
     };
 
     const goBack = () => {
@@ -360,7 +297,7 @@ export default {
 
     const goToHome = () => {
       imageFile.value = null;
-      router.push('/prescription');
+      router.push('/default/prescription');
     };
 
     onBeforeMount(async () => {
@@ -445,11 +382,11 @@ video {
 }
 
 .shutter-button {
-  @apply bg-gray-900 rounded-full relative w-16 h-16;
+  @apply bg-active rounded-full relative w-16 h-16 cursor-pointer;
 
   &:after {
     content: "";
-    @apply absolute top-1 left-1 w-14 h-14 rounded-full bg-gray-900 border border-white;
+    @apply absolute top-1 left-1 w-14 h-14 rounded-full bg-active border border-white;
   }
 }
 .pd-size-container {

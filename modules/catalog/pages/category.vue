@@ -48,7 +48,7 @@
             :prices-loaded="isPriceLoaded"
             :loading="$fetchState.pending"
             @click:wishlist="addItemToWishlist"
-            @click:add-to-cart="addItemToCart"
+            @click:add-to-cart="({product, quantity}) => setProduct({ productNew: product, quantity })"
           />
 
           <CategoryProductList
@@ -57,7 +57,7 @@
             :prices-loaded="isPriceLoaded"
             :loading="$fetchState.pending"
             @click:wishlist="addItemToWishlist"
-            @click:add-to-cart="addItemToCart"
+            @click:add-to-cart="({product, quantity}) => setProduct({ productNew: product, quantity })"
           />
           <div
             v-if="!$fetchState.pending"
@@ -145,6 +145,7 @@ import type { ProductInterface } from '~/modules/GraphQL/types';
 import type { SortingModel } from '~/modules/catalog/category/composables/useFacet/sortingOptions';
 import type { Pagination } from '~/composables/types';
 import type { Product } from '~/modules/catalog/product/types';
+import { usePrescription } from '~/composables/usePrescription';
 
 export default defineComponent({
   name: 'CategoryPage',
@@ -177,6 +178,8 @@ export default defineComponent({
     const pagination = ref<Pagination>({});
 
     const productContainerElement = ref<HTMLElement | null>(null);
+
+    const { setProduct } = usePrescription();
 
     const {
       toggleFilterSidebar,
@@ -285,6 +288,7 @@ export default defineComponent({
       changeToCategoryGridView,
       isFilterSidebarOpen,
       addItemToCart,
+      setProduct,
       addItemToWishlist,
       pagination,
       products,

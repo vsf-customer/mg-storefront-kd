@@ -70,7 +70,7 @@ const state = reactive<State>({
   },
 });
 
-const emptyPrescription = {
+export const emptyPrescription = {
   pd: 0,
   od: {
     sphere: '0.00',

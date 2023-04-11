@@ -194,7 +194,7 @@
                 <SfButton
                   v-e2e="'go-to-checkout-btn'"
                   data-testid="category-sidebar-go-to-checkout"
-                  class="sf-button--full-width color-secondary"
+                  class="sf-button--full-width color-primary"
                 >
                   {{ $t('Go to checkout') }}
                 </SfButton>

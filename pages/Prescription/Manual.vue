@@ -25,7 +25,7 @@ import {
   onBeforeMount,
 } from '@nuxtjs/composition-api';
 import PrescriptionEdit from '~/components/Prescription/PrescriptionEdit.vue';
-import { usePrescription } from '~/composables/usePrescription';
+import { usePrescription, emptyPrescription } from '~/composables/usePrescription';
 import { useCart } from '~/modules/checkout/composables/useCart';
 
 export default defineComponent({
@@ -37,29 +37,18 @@ export default defineComponent({
   setup() {
     const { addItem } = useCart();
     const {
-      prescription, setPrescription, savePrescription, product,
+      prescription, setPrescription, product,
     } = usePrescription();
     const router = useRouter();
 
     const handleSavePrescription = async () => {
-      savePrescription();
+      setPrescription({ ...emptyPrescription });
       await addItem({ ...product.value });
       router.push('/default/cart');
     };
 
     onBeforeMount(() => {
-      setPrescription({
-        ...prescription.value,
-        pd: 65,
-        od: {
-          ...prescription.value.od,
-          sphere: '0.25',
-        },
-        os: {
-          ...prescription.value.os,
-          sphere: '0.25',
-        },
-      });
+      sessionStorage.removeItem('PRESCRIPTION_IMAGE');
     });
 
     return {

@@ -78,6 +78,7 @@
           class="product__description desktop-only"
         />
         <SfAddToCart
+
           v-model="qty"
           v-e2e="'product_add-to-cart'"
           :disabled="isCartLoading || !canAddToCart(product, qty) || isFetching"

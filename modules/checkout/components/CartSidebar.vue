@@ -244,7 +244,7 @@
               <SfButton
                 v-e2e="'go-to-checkout-btn'"
                 data-testid="category-sidebar-go-to-checkout"
-                class="sf-button--full-width color-secondary"
+                class="sf-button--full-width color-primary"
                 @click="toggleCartSidebar"
               >
                 {{ $t('Go to checkout') }}
@@ -341,8 +341,9 @@ export default defineComponent({
 <style lang="scss" scoped>
 .sidebar-go-to-cart {
   margin-top: var(--spacer-sm);
-  --button-background: var(--c-light);
+  --button-background: var(--c-white);
   --button-color: var(--c-dark-variant);
+  border: 2px solid var(--c-dark-variant);
 }
 
 #cart {
