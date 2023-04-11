@@ -88,6 +88,26 @@
               {{ cartTotalItems }}
             </SfBadge>
           </SfButton>
+          <SfButton
+            v-e2e="'app-header-account'"
+            class="sf-button--pure sf-header__action pr-3"
+          >
+            <span class="pr-1 text-sm font-thin text-gray-400 underline whitespace-nowrap">Find a Store</span>
+            <SvgImage
+              icon="marker_fill"
+              label="Find a Store"
+              width="1.25rem"
+              height="1.25rem"
+              :class="{
+                'sf-header__icon is-active': activeIcon === 'account',
+              }"
+            />
+          </SfButton>
+          <SfButton
+            class="sf-button--full-width color-primary normal-case px-3 font-normal h-[51px]"
+          >
+            Schedule an Eye Exam
+          </SfButton>
         </div>
       </template>
       <template #search>
@@ -222,7 +242,7 @@ export default defineComponent({
 <style lang="scss" scoped>
 .sf-header {
   --header-padding: var(--spacer-sm);
-  --header-width: 100%;
+  --header-width: 95%;
   @include for-desktop {
     --header-padding: 0 var(--spacer-sm);
   }

@@ -3,12 +3,12 @@
     <div class="px-4 py-3">
       <div>
         <h3 class="text-2xl">
-          Add your prescription
+          Select your lens type
         </h3>
         <p
           class="my-7"
         >
-          Use your camera to take a picture of your prescription. You can also upload a file or type in the details.
+          Choose the lens type that matches your prescription.
         </p>
       </div>
       <ul

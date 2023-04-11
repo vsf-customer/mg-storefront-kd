@@ -62,7 +62,7 @@ export default {
     "Thanks! If there is an account registered with the {0} email, you will find message with a password reset link in your inbox.",
   "Forgotten password?": "Forgotten password?",
   "Go back": "Go back",
-  "Go back shopping": "Go back shopping",
+  "Go back shopping": "Continue Shopping",
   "Go back to shop": "Go back to shop",
   "Go to checkout": "Go to checkout",
   "Go to cart": "Go to cart",

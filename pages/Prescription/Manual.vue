@@ -38,6 +38,7 @@ import {
 } from '@nuxtjs/composition-api';
 import PrescriptionEdit from '~/components/Prescription/PrescriptionEdit.vue';
 import { usePrescription, emptyPrescription } from '~/composables/usePrescription';
+import { useProductFilter } from '~/composables/useProductFilter';
 import { useCart } from '~/modules/checkout/composables/useCart';
 
 export default defineComponent({
@@ -53,10 +54,11 @@ export default defineComponent({
     } = usePrescription();
     const router = useRouter();
     const isLoading = ref(false);
-
+    const { clearFilters } = useProductFilter();
     const handleSavePrescription = async () => {
       isLoading.value = true;
       setPrescription({ ...emptyPrescription });
+      clearFilters();
       await addItem({ ...product.value });
       await router.push('/default/cart');
     };
