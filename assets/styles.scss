@@ -1,3 +1,13 @@
+
+:root {
+  --c-primary: #ED383E;
+  --c-primary-lighten: #F7A8A9;
+  --c-primary-darken: #db272d;
+  --c-primary-variant: #F7A8A9;
+}
 .raleway {
   font-family: var(--font-family--secondary);
+}
+.sf-button {
+  background: var(--button-background, var(--c-primary));
 }

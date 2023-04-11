@@ -5,11 +5,7 @@
       :class="{ 'header-on-top': isSearchOpen }"
     >
       <template #logo>
-        <img
-          src="/icons/jcp_logo.svg"
-          alt="JCPenney Logo"
-          class="max-w-[280px] aspect-ratio-[280px 30px]"
-        >
+        <HeaderLogo />
       </template>
       <template #navigation>
         <HeaderNavigation :category-tree="categoryTree" />
