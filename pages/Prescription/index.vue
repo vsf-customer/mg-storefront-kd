@@ -72,6 +72,12 @@
         </div>
       </div>
     </div>
+    <input
+      ref="inputFile"
+      type="file"
+      style="display:none"
+      @change="onFileChange"
+    >
   </div>
 </template>
 
@@ -91,6 +97,7 @@ export default {
     const { prescription, setPrescription } = usePrescription();
     const image = ref(null);
     const isLoading = ref(false);
+    const inputFile = ref(null);
 
     const goToOCR = () => {
       sessionStorage.removeItem('PRESCRIPTION_IMAGE');
@@ -98,8 +105,18 @@ export default {
     };
 
     const goToUploadFile = () => {
-      sessionStorage.removeItem('PRESCRIPTION_IMAGE');
-      router.push('/default/prescription/upload');
+      inputFile.value.click();
+      // sessionStorage.removeItem('PRESCRIPTION_IMAGE');
+      // router.push('/default/prescription/upload');
+    };
+
+    const onFileChange = (e) => {
+      const file = e.target.files[0];
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.addEventListener('load', () => {
+        image.value = reader.result;
+      });
     };
 
     const goToManual = () => {
@@ -136,6 +153,8 @@ export default {
     return {
       image,
       isLoading,
+      inputFile,
+      onFileChange,
       savePrescription,
       goToOCR,
       goToManual,
