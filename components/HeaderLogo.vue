@@ -44,6 +44,7 @@ export default defineComponent({
     const logoSrc = '/icons/jcp_logo.svg';
 
     const logoHeight = computed(() => config.value.logo_height || '34');
+    const logoWidth = computed(() => config.value.logo_height || '211');
 
     const logoAlt = computed(() => config.value.logo_alt || '');
 
