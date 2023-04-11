@@ -1,11 +1,15 @@
 <template>
-  <div>
+  <div class="w-full">
     <SfHeader
       class="sf-header--has-mobile-search"
       :class="{ 'header-on-top': isSearchOpen }"
     >
       <template #logo>
-        <HeaderLogo />
+        <img
+          src="/icons/jcp_logo.svg"
+          alt="JCPenney Logo"
+          class="max-w-[280px] aspect-ratio-[280px 30px]"
+        >
       </template>
       <template #navigation>
         <HeaderNavigation :category-tree="categoryTree" />
@@ -222,6 +226,7 @@ export default defineComponent({
 <style lang="scss" scoped>
 .sf-header {
   --header-padding: var(--spacer-sm);
+  --header-width: 100%;
   @include for-desktop {
     --header-padding: 0 var(--spacer-sm);
   }

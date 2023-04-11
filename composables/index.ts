@@ -46,3 +46,5 @@ export * from '../modules/checkout/composables/useCartView';
 
 export * from './types';
 export * from '../modules/GraphQL/types';
+export * from './usePrescription';
+export * from './useProductFilter';

@@ -1,5 +1,8 @@
 <template>
-  <nuxt-link :to="localePath('/')" class="sf-header__logo">
+  <nuxt-link
+    :to="localePath('/')"
+    class="sf-header__logo"
+  >
     <SfImage
       v-if="logoSrc"
       image-tag="nuxt-img"
@@ -31,9 +34,14 @@ export default defineComponent({
   setup() {
     const { config } = useConfig();
 
-    const logoSrc = computed(() => '../static/zenni-logo.webp');
+    // const logoSrc = computed(() => {
+    //   const baseMediaUrl = config.value.base_media_url;
+    //   const logo = config.value.header_logo_src;
 
-    const logoWidth = computed(() => config.value.logo_width || '35');
+    //   return baseMediaUrl && logo ? `${baseMediaUrl}logo/${logo}` : '';
+    // });
+
+    const logoSrc = '/icons/jcp_logo.svg';
 
     const logoHeight = computed(() => config.value.logo_height || '34');
 
