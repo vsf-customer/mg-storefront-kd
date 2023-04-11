@@ -1,5 +1,5 @@
 import {
-  reactive, computed,
+  reactive, computed, useRouter,
 } from '@nuxtjs/composition-api';
 
 export interface Prescription {
@@ -31,6 +31,10 @@ export interface Prescription {
 
 interface State {
   prescription: Prescription;
+  product: {
+    product: any,
+    quantity: number,
+  }
 }
 
 const state = reactive<State>({
@@ -59,6 +63,10 @@ const state = reactive<State>({
       baseVer: '',
     },
     lensType: 'SingleVision',
+  },
+  product: {
+    product: undefined,
+    quantity: 0,
   },
 });
 
@@ -94,7 +102,16 @@ export const usePrescription = () => {
     state.prescription = prescriptionNew ? { ...prescriptionNew } : { ...emptyPrescription };
   };
 
+  const router = useRouter();
+
   const prescription = computed(() => state.prescription);
+  const product = computed(() => state.product);
+
+  const setProduct = ({ productNew, quantity }) => {
+    state.product.product = productNew;
+    state.product.quantity = quantity;
+    router.push({ path: '/default/select-lens-type' });
+  };
 
   const resetPrism = () => {
     setPrescription({
@@ -141,12 +158,14 @@ export const usePrescription = () => {
     prescriptionToSave.os.prismVer = Number(prescriptionToSave.os.prismVer);
     prescriptionToSave.os.baseVer = prescriptionToSave.os.baseVer || '';
 
-    prescriptionToSave.lensType = prescriptionToSave.lensType || 'SingleVision';
+    prescriptionToSave.lensType = prescriptionToSave.lensType || '';
     setPrescription(prescriptionToSave);
   };
 
   return {
     prescription,
+    product,
+    setProduct,
     setPrescription,
     savePrescription,
     resetPrism,

@@ -82,13 +82,13 @@
           v-e2e="'product_add-to-cart'"
           :disabled="isCartLoading || !canAddToCart(product, qty) || isFetching"
           class="product__add-to-cart"
-          @click="addItem({ product, quantity: parseInt(qty) })"
+          @click="setProduct({ productNew: product, quantity: parseInt(qty) })"
         >
           <template #add-to-cart-btn>
             <SfButton
               class="sf-add-to-cart__button"
               :disabled="isCartLoading || !canAddToCart(product, qty) || isFetching"
-              @click="addItem({ product, quantity: parseInt(qty) })"
+              @click="setProduct({ productNew: product, quantity: parseInt(qty) })"
             >
               {{ $t('Add to cart') }}
             </SfButton>
@@ -158,6 +158,7 @@ import { useCart } from '~/modules/checkout/composables/useCart';
 import ProductTabs from '~/modules/catalog/product/components/tabs/ProductTabs.vue';
 import { useProductGallery } from '~/modules/catalog/product/composables/useProductGallery';
 import { TabsConfig, useProductTabs } from '~/modules/catalog/product/composables/useProductTabs';
+import { usePrescription } from '~/composables/usePrescription';
 
 export default defineComponent({
   name: 'SimpleProduct',
@@ -197,6 +198,7 @@ export default defineComponent({
     const { isAuthenticated } = useUser();
     const { addOrRemoveItem, isInWishlist } = useWishlist();
     const { activeTab, setActiveTab, openNewReviewTab } = useProductTabs();
+    const { setProduct } = usePrescription();
 
     const productShortDescription = computed(
       () => props.product?.short_description?.html || '',
@@ -210,6 +212,7 @@ export default defineComponent({
 
     return {
       addItem,
+      setProduct,
       addItemToWishlist: addOrRemoveItem,
       averageRating,
       totalReviews,

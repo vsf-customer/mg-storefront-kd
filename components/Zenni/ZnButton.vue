@@ -40,7 +40,7 @@ export default {
 </script>
 <style lang="scss" scoped>
 button:active {
-  @apply text-white bg-pressed;
+  @apply text-white bg-active;
 }
 button:disabled {
   @apply text-white bg-disabled;

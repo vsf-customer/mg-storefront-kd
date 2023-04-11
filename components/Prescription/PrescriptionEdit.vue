@@ -368,8 +368,7 @@ export default {
   },
   emits: ['change', 'primary-button-clicked', 'secondary-button-clicked'],
   setup(props, { emit }) {
-    const { $axios } = useContext();
-    const { prescription: prescriptionState, setPrescription, resetPrism } = usePrescription();
+    const { prescription: prescriptionState, savePrescription, resetPrism } = usePrescription();
     const showModal = ref(false);
     const prescriptionData = ref({ ...props.prescription });
     const showPrismForm = ref(false);
@@ -411,6 +410,17 @@ export default {
       return false;
     });
 
+    const hasValue = (value) => value !== undefined
+      && value !== null
+      && value !== ''
+      && value !== '0'
+      && value !== '0.00'
+      && value !== 0;
+    const hasPrismValue = (value) => hasValue(value?.od?.prismHor)
+      || hasValue(value?.os?.prismHor)
+      || hasValue(value?.od?.prismVer)
+      || hasValue(value?.os?.prismVer);
+
     watch(
       () => props.prescription,
       (newValue) => {
@@ -432,17 +442,6 @@ export default {
         if (hasPrismValue(updatedPrescription)) showPrismForm.value = true;
       },
     );
-
-    const hasValue = (value) => value !== undefined
-      && value !== null
-      && value !== ''
-      && value !== '0'
-      && value !== '0.00'
-      && value !== 0;
-    const hasPrismValue = (value) => hasValue(value?.od?.prismHor)
-      || hasValue(value?.os?.prismHor)
-      || hasValue(value?.od?.prismVer)
-      || hasValue(value?.os?.prismVer);
 
     onMounted(() => {
       if (hasPrismValue(prescriptionState.value)) showPrismForm.value = true;
@@ -574,83 +573,9 @@ export default {
       nvAddOptionList.value.push({ value: i, label: i.toFixed(2) });
     }
 
-    const handlePrimaryButtonClicked = async () => {
-      let savedPrescription = prescriptionData.value;
-
-      savedPrescription = prescriptionData.value.lensType === 'SingleVision' ? {
-        ...prescriptionData.value,
-        od: {
-          ...prescriptionData.value.od,
-          add: 0,
-        },
-        os: {
-          ...prescriptionData.value.os,
-          add: 0,
-        },
-      } : {
-        ...prescriptionData.value,
-        od: {
-          ...prescriptionData.value.od,
-          prismHor: 0,
-          prismVer: 0,
-          baseHor: '',
-          baseVer: '',
-        },
-        os: {
-          ...prescriptionData.value.os,
-          prismHor: 0,
-          prismVer: 0,
-          baseHor: '',
-          baseVer: '',
-        },
-      };
-
-      const { data: results } = await $axios.post(
-        '/validatePrescriptionAndLens',
-        savedPrescription,
-      );
-      const prescriptionValidateResults = results.validatePrescriptionResults;
-      const lensTypeValidationResults = results.validateLensResults;
-
-      if (
-        !prescriptionValidateResults.warning
-        && prescriptionValidateResults.success
-        && lensTypeValidationResults.hasLens
-      ) {
-        setPrescription(prescriptionData.value);
-        emit('primary-button-clicked');
-        return;
-      }
-
-      errorMessages.value = [];
-      warningMessages.value = [];
-
-      if (!prescriptionValidateResults.success) {
-        errorMessages.value = flattenDeep(
-          Object.keys(prescriptionValidateResults.errorMessages).map((key) => prescriptionValidateResults.errorMessages[key]),
-        );
-        if (errorMessages.value.length > 0) {
-          showErrorModal.value = true;
-        }
-        return;
-      }
-
-      if (!lensTypeValidationResults.hasLens) {
-        errorMessages.value = [lensTypeValidationResults.errorMessage];
-        showErrorModal.value = true;
-        return;
-      }
-
-      if (prescriptionValidateResults.warning) {
-        warningMessages.value = flattenDeep(
-          Object.keys(prescriptionValidateResults.warningMessages).map(
-            (key) => prescriptionValidateResults.warningMessages[key],
-          ),
-        );
-        if (warningMessages.value.length > 0) {
-          showWarningModal.value = true;
-        }
-      }
+    const handlePrimaryButtonClicked = () => {
+      savePrescription();
+      emit('primary-button-clicked');
     };
 
     const handleWarningModalPrimaryButtonClicked = () => {

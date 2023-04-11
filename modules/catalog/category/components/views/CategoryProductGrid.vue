@@ -26,7 +26,7 @@
         data-testid="product-card"
         :image-height="imageSize.height"
         :image-width="imageSize.width"
-        :show-add-to-cart-button="true"
+        :show-add-to-cart-button="false"
         @click:wishlist="$emit('click:wishlist', product)"
         @click:add-to-cart="$emit('click:add-to-cart', { product, quantity: 1 })"
       >

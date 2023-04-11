@@ -4,12 +4,11 @@
     class="
       bg-white
       uppercase
-      py-5
-      leading-6
-      text-active text-xl
-      border-active
+      text-black text-xl
+      border-black
+      h-[60px]
       border-solid
-      border
+      border-2
     "
     :style="widthStyle"
     @click="$emit('click')"

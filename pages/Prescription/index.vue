@@ -22,13 +22,12 @@
           >
             Take a picture
           </zn-button>
-          <zn-secondary-button
-            :is-secondary="true"
+          <zn-button
             data-test="btnGoToUploadFile"
             @click="goToUploadFile"
           >
             Upload a file
-          </zn-secondary-button>
+          </zn-button>
           <zn-secondary-button
             class="text-xl"
             data-test="btnGoToManunal"

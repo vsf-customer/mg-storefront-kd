@@ -22,9 +22,11 @@
 import {
   defineComponent,
   useRouter,
+  onBeforeMount,
 } from '@nuxtjs/composition-api';
 import PrescriptionEdit from '~/components/Prescription/PrescriptionEdit.vue';
 import { usePrescription } from '~/composables/usePrescription';
+import { useCart } from '~/modules/checkout/composables/useCart';
 
 export default defineComponent({
   name: 'ManualTypePrescription',
@@ -33,13 +35,32 @@ export default defineComponent({
   },
   // middleware: 'is-authenticated',
   setup() {
-    const { prescription, setPrescription, savePrescription } = usePrescription();
+    const { addItem } = useCart();
+    const {
+      prescription, setPrescription, savePrescription, product,
+    } = usePrescription();
     const router = useRouter();
 
     const handleSavePrescription = async () => {
-      await savePrescription();
-      router.push('/products/list');
+      savePrescription();
+      await addItem({ ...product.value });
+      router.push('/default/cart');
     };
+
+    onBeforeMount(() => {
+      setPrescription({
+        ...prescription.value,
+        pd: 65,
+        od: {
+          ...prescription.value.od,
+          sphere: '0.25',
+        },
+        os: {
+          ...prescription.value.os,
+          sphere: '0.25',
+        },
+      });
+    });
 
     return {
       prescription,

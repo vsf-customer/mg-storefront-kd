@@ -188,7 +188,7 @@ export default defineComponent({
       },
     ]);
     const callToAction = ref({
-      title: app.i18n.t('Stay connected to Zenni.'),
+      title: app.i18n.t('Stay connected to JCPenney.'),
       description: app.i18n.t('Sign up for exclusive offers and news from us'),
       buttonText: app.i18n.t('Sign Up'),
       imageSrc: '/homepage/newsletter.png',
