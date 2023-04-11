@@ -130,6 +130,8 @@ export default defineComponent({
 }
 .nav-item {
   --header-navigation-item-margin: 0 var(--spacer-sm);
+  padding:0;
+  white-space: nowrap;
 
   .sf-header-navigation-item__item--mobile {
     display: none;

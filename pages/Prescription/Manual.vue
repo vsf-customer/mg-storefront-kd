@@ -1,9 +1,20 @@
 <template>
   <div
-    class="manual-type-wrapper raleway"
+    class="manual-type-wrapper raleway h-screen"
     data-test="manual-type-wrapper"
   >
+    <div
+      v-if="isLoading"
+      class="flex items-center justify-center h-screen w-full"
+      data-test="divLoading"
+    >
+      <img
+        src="/icons/loading-icon.svg"
+        class="h-[70px]"
+      >
+    </div>
     <PrescriptionEdit
+      v-else
       :prescription="prescription"
       primary-button-label="Confirm prescription"
       @change="setPrescription"
@@ -23,6 +34,7 @@ import {
   defineComponent,
   useRouter,
   onBeforeMount,
+  ref,
 } from '@nuxtjs/composition-api';
 import PrescriptionEdit from '~/components/Prescription/PrescriptionEdit.vue';
 import { usePrescription, emptyPrescription } from '~/composables/usePrescription';
@@ -40,11 +52,13 @@ export default defineComponent({
       prescription, setPrescription, product,
     } = usePrescription();
     const router = useRouter();
+    const isLoading = ref(false);
 
     const handleSavePrescription = async () => {
+      isLoading.value = true;
       setPrescription({ ...emptyPrescription });
       await addItem({ ...product.value });
-      router.push('/default/cart');
+      await router.push('/default/cart');
     };
 
     onBeforeMount(() => {
@@ -53,6 +67,7 @@ export default defineComponent({
 
     return {
       prescription,
+      isLoading,
       handleSavePrescription,
       setPrescription,
     };

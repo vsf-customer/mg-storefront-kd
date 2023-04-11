@@ -1,5 +1,5 @@
 <template>
-  <div class="w-full">
+  <div>
     <SfHeader
       class="sf-header--has-mobile-search"
       :class="{ 'header-on-top': isSearchOpen }"
