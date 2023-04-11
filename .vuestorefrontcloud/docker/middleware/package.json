@@ -18,6 +18,9 @@
     "cors": "2.8.5",
     "dotenv": "16.0.3"
   },
+  "devDependencies": {
+    "@nuxtjs/tailwindcss": "^6.6.5"
+  },
   "engines": {
     "node": "^16.13"
   }
