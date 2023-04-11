@@ -144,5 +144,7 @@ h4 {
 
 .sf-image{
   object-fit: contain;
+  outline: none!important;
 }
+
 </style>

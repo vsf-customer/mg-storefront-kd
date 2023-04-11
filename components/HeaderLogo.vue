@@ -56,4 +56,8 @@ export default defineComponent({
     min-height: 80px;
   }
 }
+
+.sf-image::v-deep{
+  outline: none!important;
+}
 </style>

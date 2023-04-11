@@ -40,7 +40,7 @@
         class="products"
         :button-text="$t('See more')"
         :title="$t('New Products')"
-        link="/women.html"
+        link="/len.html"
       />
     </LoadWhenVisible>
     <LoadWhenVisible>
@@ -119,10 +119,10 @@ export default defineComponent({
     const banners = ref([
       {
         slot: 'banner-A',
-        subtitle: app.i18n.t('Dresses'),
-        title: app.i18n.t('Cocktail & Party'),
+        subtitle: app.i18n.t('Glasses'),
+        title: app.i18n.t('TOP-RATED GLASSES'),
         description: app.i18n.t(
-          'Find stunning women\'s cocktail dresses and party dresses. Stand out in lace and metallic cocktail dresses from all your favorite brands.',
+          'Popular styles our customers rave about.',
         ),
         buttonText: app.i18n.t('Shop now'),
         image: {
@@ -142,13 +142,13 @@ export default defineComponent({
       },
       {
         slot: 'banner-B',
-        subtitle: app.i18n.t('Dresses'),
-        title: app.i18n.t('Linen Dresses'),
+        subtitle: app.i18n.t('Final Sale'),
+        title: app.i18n.t('LAST CHANCE TO BUY'),
         description: app.i18n.t(
-          'Find stunning women\'s cocktail dresses and party dresses. Stand out in lace and metallic cocktail dresses from all your favorite brands.',
+          'Get your hands on these soon-to-be-discontinued styles before they’re gone!',
         ),
         buttonText: app.i18n.t('Shop now'),
-        image: '/homepage/bannerE.webp',
+        image: '/homepage/last-chance.png',
         imageConfig: {
           fit: 'cover',
           width: isDesktop ? 496 : 328,
@@ -160,8 +160,8 @@ export default defineComponent({
       },
       {
         slot: 'banner-C',
-        subtitle: app.i18n.t('T-Shirts'),
-        title: app.i18n.t('The Office Life'),
+        subtitle: app.i18n.t('Work glasses'),
+        title: app.i18n.t('The Office Line'),
         image: '/homepage/bannerC.webp',
         imageConfig: {
           fit: 'cover',
@@ -174,9 +174,9 @@ export default defineComponent({
       },
       {
         slot: 'banner-D',
-        subtitle: app.i18n.t('Summer Sandals'),
-        title: app.i18n.t('Eco Sandals'),
-        image: '/homepage/bannerG.webp',
+        subtitle: app.i18n.t('Summer deals'),
+        title: app.i18n.t('Eco Line'),
+        image: '/homepage/colorful.png',
         imageConfig: {
           fit: 'cover',
           width: isDesktop ? 332 : 328,
@@ -191,7 +191,7 @@ export default defineComponent({
       title: app.i18n.t('Subscribe to Newsletters'),
       description: app.i18n.t('Be aware of upcoming sales and events. Receive gifts and special offers!'),
       buttonText: app.i18n.t('Subscribe'),
-      imageSrc: '/homepage/newsletter.webp',
+      imageSrc: '/homepage/newsletter.png',
       imageWidth: isDesktop ? 1240 : 400,
       imageHeight: isDesktop ? 202 : 200,
       imageConfig: {
