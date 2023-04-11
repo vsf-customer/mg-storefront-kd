@@ -20,9 +20,9 @@
         <UpsellProducts />
       </LoadWhenVisible>
     </div>
-    <LoadWhenVisible>
+    <!-- <LoadWhenVisible>
       <InstagramFeed />
-    </LoadWhenVisible>
+    </LoadWhenVisible> -->
     <LoadWhenVisible>
       <MobileStoreBanner />
     </LoadWhenVisible>

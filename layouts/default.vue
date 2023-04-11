@@ -143,4 +143,8 @@ h4 {
   outline: none!important;
 }
 
+.sf-button {
+  background: var(--button-background, var(--c-primary));
+}
+
 </style>
