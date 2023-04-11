@@ -31,9 +31,7 @@ export default defineComponent({
   setup() {
     const { config } = useConfig();
 
-    const logoSrc = computed(() => {
-      '../static/zenni-logo.webp';
-    });
+    const logoSrc = computed(() => '../static/zenni-logo.webp');
 
     const logoWidth = computed(() => config.value.logo_width || '35');
 
