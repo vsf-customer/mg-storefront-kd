@@ -6,7 +6,7 @@
     <SfImage
       v-if="logoSrc"
       image-tag="nuxt-img"
-      :src="logoSrc"
+      src="../static/zenni-logo.webp"
       :alt="logoAlt"
       :title="logoAlt"
       :width="logoWidth"

@@ -104,17 +104,17 @@ export default defineComponent({
 
     const page = ref<CmsPage | null>(null);
     const hero = ref({
-      title: app.i18n.t('Colorful summer dresses are already in store'),
-      subtitle: app.i18n.t('SUMMER COLLECTION {year}', { year }),
+      title: app.i18n.t('Prescription Sunglasses'),
+      subtitle: app.i18n.t('Our affordable sunnies protect your eyes and your wallet all year long.', { year }),
       buttonText: app.i18n.t('Learn more'),
-      imageSrc: '/homepage/bannerB.webp',
+      imageSrc: '/homepage/mens_sunglasses_2.png',
       imageWidth: isDesktop ? 1240 : 328,
       imageHeight: isDesktop ? 400 : 224,
       imageConfig: {
-        fit: 'cover',
-        format: 'webp',
+        fit: 'contain',
+        format: 'png',
       },
-      link: '/women.html',
+      link: '/womens.html',
     });
     const banners = ref([
       {
@@ -127,9 +127,9 @@ export default defineComponent({
         buttonText: app.i18n.t('Shop now'),
         image: {
           mobile:
-            '/homepage/bannerB.webp',
+            '/homepage/top-rated.png',
           desktop:
-            '/homepage/bannerF.webp',
+            '/homepage/top-rated.png',
         },
         imageConfig: {
           fit: 'cover',
