@@ -43,17 +43,9 @@ export default defineComponent({
 
     const logoSrc = '/icons/jcp_logo.svg';
 
-    const logoWidth = computed(
-      () => config.value.logo_width || '35',
-    );
+    const logoHeight = computed(() => config.value.logo_height || '34');
 
-    const logoHeight = computed(
-      () => config.value.logo_height || '34',
-    );
-
-    const logoAlt = computed(
-      () => config.value.logo_alt || '',
-    );
+    const logoAlt = computed(() => config.value.logo_alt || '');
 
     return {
       logoAlt,
@@ -71,5 +63,9 @@ export default defineComponent({
     display: inline-flex;
     min-height: 80px;
   }
+}
+
+.sf-image::v-deep{
+  outline: none!important;
 }
 </style>

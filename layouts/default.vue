@@ -71,6 +71,10 @@ export default defineComponent({
 <style lang="scss">
 @import "~@storefront-ui/vue/styles";
 
+:root {
+  --c-primary: #0199a8;
+} 
+
 #layout {
   box-sizing: border-box;
   @include for-desktop {
@@ -140,5 +144,7 @@ h4 {
 
 .sf-image{
   object-fit: contain;
+  outline: none!important;
 }
+
 </style>

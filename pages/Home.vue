@@ -40,7 +40,7 @@
         class="products"
         :button-text="$t('See more')"
         :title="$t('New Products')"
-        link="/women.html"
+        link="/len.html"
       />
     </LoadWhenVisible>
     <LoadWhenVisible>
@@ -56,9 +56,9 @@
         class="call-to-action"
       />
     </LoadWhenVisible>
-    <LoadWhenVisible>
+    <!-- <LoadWhenVisible>
       <InstagramFeed />
-    </LoadWhenVisible>
+    </LoadWhenVisible> -->
     <LoadWhenVisible>
       <MobileStoreBanner />
     </LoadWhenVisible>
@@ -104,32 +104,32 @@ export default defineComponent({
 
     const page = ref<CmsPage | null>(null);
     const hero = ref({
-      title: app.i18n.t('Colorful summer dresses are already in store'),
-      subtitle: app.i18n.t('SUMMER COLLECTION {year}', { year }),
+      title: app.i18n.t('Prescription Sunglasses'),
+      subtitle: app.i18n.t('Our affordable sunnies protect your eyes and your wallet all year long.', { year }),
       buttonText: app.i18n.t('Learn more'),
-      imageSrc: '/homepage/bannerB.webp',
+      imageSrc: '/homepage/mens_sunglasses_2.png',
       imageWidth: isDesktop ? 1240 : 328,
       imageHeight: isDesktop ? 400 : 224,
       imageConfig: {
-        fit: 'cover',
-        format: 'webp',
+        fit: 'contain',
+        format: 'png',
       },
-      link: '/women.html',
+      link: '/womens.html',
     });
     const banners = ref([
       {
         slot: 'banner-A',
-        subtitle: app.i18n.t('Dresses'),
-        title: app.i18n.t('Cocktail & Party'),
+        subtitle: app.i18n.t('Glasses'),
+        title: app.i18n.t('TOP-RATED GLASSES'),
         description: app.i18n.t(
-          'Find stunning women\'s cocktail dresses and party dresses. Stand out in lace and metallic cocktail dresses from all your favorite brands.',
+          'Popular styles our customers rave about.',
         ),
         buttonText: app.i18n.t('Shop now'),
         image: {
           mobile:
-            '/homepage/bannerB.webp',
+            '/homepage/top-rated.png',
           desktop:
-            '/homepage/bannerF.webp',
+            '/homepage/top-rated.png',
         },
         imageConfig: {
           fit: 'cover',
@@ -142,13 +142,13 @@ export default defineComponent({
       },
       {
         slot: 'banner-B',
-        subtitle: app.i18n.t('Dresses'),
-        title: app.i18n.t('Linen Dresses'),
+        subtitle: app.i18n.t('Final Sale'),
+        title: app.i18n.t('LAST CHANCE TO BUY'),
         description: app.i18n.t(
-          'Find stunning women\'s cocktail dresses and party dresses. Stand out in lace and metallic cocktail dresses from all your favorite brands.',
+          'Get your hands on these soon-to-be-discontinued styles before they’re gone!',
         ),
         buttonText: app.i18n.t('Shop now'),
-        image: '/homepage/bannerE.webp',
+        image: '/homepage/last-chance.png',
         imageConfig: {
           fit: 'cover',
           width: isDesktop ? 496 : 328,
@@ -160,8 +160,8 @@ export default defineComponent({
       },
       {
         slot: 'banner-C',
-        subtitle: app.i18n.t('T-Shirts'),
-        title: app.i18n.t('The Office Life'),
+        subtitle: app.i18n.t('Work glasses'),
+        title: app.i18n.t('The Office Line'),
         image: '/homepage/bannerC.webp',
         imageConfig: {
           fit: 'cover',
@@ -174,9 +174,9 @@ export default defineComponent({
       },
       {
         slot: 'banner-D',
-        subtitle: app.i18n.t('Summer Sandals'),
-        title: app.i18n.t('Eco Sandals'),
-        image: '/homepage/bannerG.webp',
+        subtitle: app.i18n.t('Summer deals'),
+        title: app.i18n.t('Eco Line'),
+        image: '/homepage/colorful.png',
         imageConfig: {
           fit: 'cover',
           width: isDesktop ? 332 : 328,
@@ -188,10 +188,10 @@ export default defineComponent({
       },
     ]);
     const callToAction = ref({
-      title: app.i18n.t('Subscribe to Newsletters'),
-      description: app.i18n.t('Be aware of upcoming sales and events. Receive gifts and special offers!'),
-      buttonText: app.i18n.t('Subscribe'),
-      imageSrc: '/homepage/newsletter.webp',
+      title: app.i18n.t('Stay connected to Zenni.'),
+      description: app.i18n.t('Sign up for exclusive offers and news from us'),
+      buttonText: app.i18n.t('Sign Up'),
+      imageSrc: '/homepage/newsletter.png',
       imageWidth: isDesktop ? 1240 : 400,
       imageHeight: isDesktop ? 202 : 200,
       imageConfig: {
