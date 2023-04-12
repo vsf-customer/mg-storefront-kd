@@ -102,7 +102,7 @@ export default defineComponent({
     const year = new Date().getFullYear();
     const { isDesktop } = app.$device;
 
-    const page = (ref < CmsPage) | (null > null);
+    const page = ref<CmsPage | null>(null);
     const hero = ref({
       title:
         'Now Offering Prescription Eyewear and Prescription Sunglasses Online!',
@@ -138,7 +138,7 @@ export default defineComponent({
           format: 'webp',
         },
         class: 'sf-banner--slim desktop-only',
-        link: '/women/women-clothing-skirts',
+        link: '/len.html',
       },
       {
         slot: 'banner-B',
@@ -156,13 +156,13 @@ export default defineComponent({
           format: 'webp',
         },
         class: 'sf-banner--slim banner-central desktop-only',
-        link: '/women/women-clothing-dresses',
+        link: '/kids.html',
       },
       {
         slot: 'banner-C',
         subtitle: app.i18n.t('Work glasses'),
         title: app.i18n.t('The Office Line'),
-        image: '/homepage/bannerC.webp',
+        image: '/homepage/bannerD.png',
         imageConfig: {
           fit: 'cover',
           width: isDesktop ? 332 : 328,
@@ -170,7 +170,7 @@ export default defineComponent({
           format: 'webp',
         },
         class: 'sf-banner--slim banner__tshirt',
-        link: '/women/women-clothing-shirts',
+        link: '/contact-lenses.html',
       },
       {
         slot: 'banner-D',
