@@ -1,20 +1,13 @@
 <template>
-  <transition-group
-    appear
-    class="list-layout"
-    name="slide"
-    tag="div"
-  >
+  <transition-group appear class="list-layout" name="slide" tag="div">
     <template v-if="loading">
       <div
-        v-for="n in 4*3"
+        v-for="n in 4 * 3"
         :key="n"
         class="sf-product-card-horizontal card skeleton-container"
         data-testid="skeleton"
       >
-        <SkeletonLoader
-          :height="`${imageSize.height}px`"
-        />
+        <SkeletonLoader :height="`${imageSize.height}px`" />
       </div>
     </template>
     <template v-else>
@@ -28,7 +21,9 @@
         :image-width="imageSize.width"
         :wishlist-icon="false"
         @click:wishlist="$emit('click:wishlist', product)"
-        @click:add-to-cart="$emit('click:add-to-cart', { product, quantity: $event })"
+        @click:add-to-cart="
+          $emit('click:add-to-cart', { product, quantity: $event })
+        "
       >
         <template #configuration>
           <SfProperty
@@ -36,11 +31,7 @@
             name="Size"
             value="XS"
           />
-          <SfProperty
-            class="desktop-only"
-            name="Color"
-            value="white"
-          />
+          <SfProperty class="desktop-only" name="Color" value="white" />
         </template>
         <template #price>
           <CategoryProductPrice :product="product" />
@@ -50,7 +41,58 @@
             class="sf-add-to-cart__button"
             @click="$emit('click:add-to-cart', { product, quantity: 1 })"
           >
-            {{ $t('Add to cart') }}
+            {{ $t("Add to cart") }}
+          </SfButton>
+        </template>
+        <template
+          #image="{
+            image,
+            title,
+            link,
+            imageHeight,
+            imageWidth,
+            imageTag,
+            nuxtImgConfig,
+          }"
+        >
+          <SfButton
+            :link="link"
+            class="sf-button--pure sf-product-card__link"
+            data-testid="product-link"
+            :aria-label="'Go To Product'"
+            v-on="$listeners"
+          >
+            <template v-if="Array.isArray(image)">
+              <SfImage
+                v-for="(picture, key) in image.slice(0, 2)"
+                :key="key"
+                class="sf-product-card__picture"
+                :src="picture"
+                :alt="title"
+                :width="imageWidth"
+                :height="imageHeight"
+                :image-tag="imageTag"
+                :nuxt-img-config="nuxtImgConfig"
+              >
+                <template #placeholder>
+                  <div />
+                </template>
+              </SfImage>
+            </template>
+            <SfImage
+              v-else
+              class="sf-product-card__image"
+              :src="image"
+              :alt="title"
+              :width="imageWidth"
+              :height="imageHeight"
+              :image-tag="imageTag"
+              :nuxt-img-config="nuxtImgConfig"
+            >
+              <template #placeholder>
+                <div />
+              </template>
+            </SfImage>
           </SfButton>
         </template>
         <template #actions>
@@ -70,18 +112,25 @@
 
 <script lang="ts">
 import {
-  defineComponent, computed, useContext, PropType, toRefs,
-} from '@nuxtjs/composition-api';
+  defineComponent,
+  computed,
+  useContext,
+  PropType,
+  toRefs,
+} from "@nuxtjs/composition-api";
 import {
-  SfProductCardHorizontal, SfButton, SfProperty,
-} from '@storefront-ui/vue';
-import SkeletonLoader from '~/components/SkeletonLoader/index.vue';
+  SfProductCardHorizontal,
+  SfButton,
+  SfProperty,
+  SfImage,
+} from "@storefront-ui/vue";
+import SkeletonLoader from "~/components/SkeletonLoader/index.vue";
 
-import { useImage } from '~/composables';
-import type { Product } from '~/modules/catalog/product/types';
-import { useUser } from '~/modules/customer/composables/useUser';
-import CategoryProductPrice from '~/modules/catalog/category/components/views/CategoryProductPrice.vue';
-import { useProductsWithCommonProductCardProps } from './useProductsWithCommonCardProps';
+import { useImage } from "~/composables";
+import type { Product } from "~/modules/catalog/product/types";
+import { useUser } from "~/modules/customer/composables/useUser";
+import CategoryProductPrice from "~/modules/catalog/category/components/views/CategoryProductPrice.vue";
+import { useProductsWithCommonProductCardProps } from "./useProductsWithCommonCardProps";
 
 export default defineComponent({
   components: {
@@ -89,6 +138,7 @@ export default defineComponent({
     SfProductCardHorizontal,
     SfButton,
     SfProperty,
+    SfImage,
     SkeletonLoader,
   },
   props: {
@@ -99,25 +149,30 @@ export default defineComponent({
     pricesLoaded: Boolean,
     loading: Boolean,
   },
-  emits: ['click:wishlist', 'click:add-to-cart'],
+  emits: ["click:wishlist", "click:add-to-cart"],
   setup(props) {
     const context = useContext();
 
     const { products } = toRefs(props);
-    const { productsWithCommonProductCardProps } = useProductsWithCommonProductCardProps(products);
+    const { productsWithCommonProductCardProps } =
+      useProductsWithCommonProductCardProps(products);
 
-    const productsFormatted = computed(() => productsWithCommonProductCardProps.value.map((product) => {
-      const label = product.commonProps.isInWishlist
-        ? 'Remove from Wishlist'
-        : 'Save for later';
+    const productsFormatted = computed(() =>
+      productsWithCommonProductCardProps.value.map((product) => {
+        const label = product.commonProps.isInWishlist
+          ? "Remove from Wishlist"
+          : "Save for later";
 
-      return {
-        ...product,
-        wishlistMessage: context.i18n.t(label),
-      };
-    }));
+        return {
+          ...product,
+          wishlistMessage: context.i18n.t(label),
+        };
+      })
+    );
 
-    const { imageSizes: { productCardHorizontal: imageSize } } = useImage();
+    const {
+      imageSizes: { productCardHorizontal: imageSize },
+    } = useImage();
 
     const { isAuthenticated } = useUser();
 
@@ -176,7 +231,7 @@ export default defineComponent({
 
 ::v-deep .sf-product-card-horizontal {
   &__main {
-    @include  for-mobile {
+    @include for-mobile {
       align-items: flex-end;
     }
   }
@@ -204,5 +259,4 @@ export default defineComponent({
 ::v-deep .sf-product-card::after {
   content: none;
 }
-
 </style>

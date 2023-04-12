@@ -11,7 +11,11 @@
       :title="logoAlt"
       :width="logoWidth"
       :height="logoHeight"
-    />
+    >
+      <template #placeholder>
+        <div class="block w-[285px]" />
+      </template>
+    </SfImage>
     <SvgImage
       v-else
       icon="logo"
