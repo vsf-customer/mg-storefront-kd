@@ -34,7 +34,11 @@
             :nuxt-img-config="{
               fit: 'cover',
             }"
-          />
+          >
+            <template #placeholder>
+              <div />
+            </template>
+          </SfImage>
         </SfTableData>
         <SfTableData class="table__data table__description table__data">
           <div class="product-title">
