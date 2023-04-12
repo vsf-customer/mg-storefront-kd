@@ -94,7 +94,7 @@ export const emptyPrescription = {
     baseHor: '',
     baseVer: '',
   },
-  lensType: 'SingleVision',
+  lensType: '',
 };
 
 export const usePrescription = () => {

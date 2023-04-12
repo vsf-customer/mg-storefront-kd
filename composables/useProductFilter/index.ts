@@ -72,7 +72,7 @@ export const useProductFilter = () => {
   );
 
   const clearFilters = () => {
-    const lensType = state.filters.lensType || '';
+    const lensType = '';
     state.filters = {
       frameShapes: [],
       sizes: [],

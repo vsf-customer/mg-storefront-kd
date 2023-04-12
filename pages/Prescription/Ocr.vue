@@ -1,6 +1,6 @@
 <template>
   <div
-    class="w-full max-w-[700px] mx-auto raleway h-screen"
+    class="w-full max-w-[700px] mx-auto raleway min-h-screen"
     data-test="ocr-type-wrapper"
   >
     <div
@@ -267,10 +267,7 @@ export default {
             sphere: '0.25',
           },
         });
-        setTimeout(() => {
-          isLoading.value = false;
-          router.push({ path: '/default/prescription' });
-        }, 1000);
+        router.push({ path: '/default/prescription' });
       } catch (error) {
         console.error(error);
       } finally {

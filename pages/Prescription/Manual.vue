@@ -1,6 +1,6 @@
 <template>
   <div
-    class="manual-type-wrapper raleway h-screen"
+    class="manual-type-wrapper raleway min-h-screen"
     data-test="manual-type-wrapper"
   >
     <div
@@ -38,7 +38,7 @@ import {
 } from '@nuxtjs/composition-api';
 import PrescriptionEdit from '~/components/Prescription/PrescriptionEdit.vue';
 import { usePrescription, emptyPrescription } from '~/composables/usePrescription';
-import { useProductFilter } from '~/composables/useProductFilter';
+import { useProductFilter } from '~/composables/useProductFilter';
 import { useCart } from '~/modules/checkout/composables/useCart';
 
 export default defineComponent({

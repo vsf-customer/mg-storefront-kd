@@ -2,8 +2,9 @@
   <select-lens-type @continue="handleContinue" />
 </template>
 <script>
-import { useRouter } from '@nuxtjs/composition-api';
+import { useRouter, onMounted } from '@nuxtjs/composition-api';
 import SelectLensType from '~/components/Prescription/SelectLensType.vue';
+import { usePrescription } from '~/composables/usePrescription';
 
 export default {
   name: 'SelectLensTypePage',
@@ -13,10 +14,17 @@ export default {
   // middleware: 'is-authenticated',
   setup() {
     const router = useRouter();
+    const { product } = usePrescription();
 
     const handleContinue = () => {
       router.push('/default/prescription');
     };
+
+    onMounted(() => {
+      if (!product.value.product) {
+        router.push('/default');
+      }
+    });
 
     return {
       handleContinue,

@@ -94,7 +94,7 @@ export default {
   transition: 'fade',
   setup() {
     const router = useRouter();
-    const { prescription, setPrescription } = usePrescription();
+    const { prescription, setPrescription, product } = usePrescription();
     const image = ref(null);
     const isLoading = ref(false);
     const inputFile = ref(null);
@@ -108,19 +108,6 @@ export default {
       inputFile.value.click();
       // sessionStorage.removeItem('PRESCRIPTION_IMAGE');
       // router.push('/default/prescription/upload');
-    };
-
-    const onFileChange = (e) => {
-      const file = e.target.files[0];
-      const reader = new FileReader();
-      reader.readAsDataURL(file);
-      reader.addEventListener('load', () => {
-        image.value = reader.result;
-      });
-    };
-
-    const goToManual = () => {
-      router.push('/default/prescription/manual');
     };
 
     const savePrescription = () => {
@@ -143,10 +130,28 @@ export default {
       }, 1500);
     };
 
+    const onFileChange = (e) => {
+      // const file = e.target.files[0];
+      // const reader = new FileReader();
+      // reader.readAsDataURL(file);
+      // reader.addEventListener('load', () => {
+      //   image.value = reader.result;
+      // });
+      savePrescription();
+    };
+
+    const goToManual = () => {
+      router.push('/default/prescription/manual');
+    };
+
     onMounted(() => {
-      const sessionImage = sessionStorage.getItem('PRESCRIPTION_IMAGE');
-      if (sessionImage) {
-        image.value = sessionImage;
+      if (!product.value.product) {
+        router.push('/default');
+      } else {
+        const sessionImage = sessionStorage.getItem('PRESCRIPTION_IMAGE');
+        if (sessionImage) {
+          savePrescription();
+        }
       }
     });
 
