@@ -91,6 +91,9 @@ export default defineComponent({
   &__button {
     --button-width: 6.3125rem;
     --button-height: var(--spacer-lg);
+    --button-background: var(--c-white);
+    --button-color: var(--c-dark-variant);
+    border: 2px solid var(--c-dark-variant);
   }
 
   &__input {
