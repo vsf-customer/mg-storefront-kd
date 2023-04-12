@@ -218,6 +218,19 @@ export default defineComponent({
     onMounted(async () => {
       const loadedFilters = await getProductFilterByCategoryCommand.execute({ eq: props.catUid });
       filters.value = loadedFilters.filter((filter) => isFilterEnabled(filter.attribute_code));
+      filters.value = filters.value.map((filter) => {
+        if (filter.label.toLowerCase() === 'price') {
+          filter.options = filter.options.map((option) => {
+            const prices = option.label.split('-');
+            const formattedPrices = prices.map((price) => new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(Number(price)));
+            return {
+              ...option,
+              label: formattedPrices.join(' - '),
+            };
+          });
+        }
+        return filter;
+      });
       updateRemovableFilters();
       isLoading.value = false;
     });

@@ -102,10 +102,14 @@ export default defineComponent({
     const year = new Date().getFullYear();
     const { isDesktop } = app.$device;
 
-    const page = ref<CmsPage | null>(null);
+    const page = (ref < CmsPage) | (null > null);
     const hero = ref({
-      title: app.i18n.t('Prescription Sunglasses'),
-      subtitle: app.i18n.t('Our affordable sunnies protect your eyes and your wallet all year long.', { year }),
+      title:
+        'Now Offering Prescription Eyewear and Prescription Sunglasses Online!',
+      subtitle: app.i18n.t(
+        'Our affordable sunnies protect your eyes and your wallet all year long.',
+        { year },
+      ),
       buttonText: app.i18n.t('Learn more'),
       imageSrc: '/homepage/mens_sunglasses_2.png',
       imageWidth: isDesktop ? 1240 : 328,
@@ -121,15 +125,11 @@ export default defineComponent({
         slot: 'banner-A',
         subtitle: app.i18n.t('Glasses'),
         title: app.i18n.t('TOP-RATED GLASSES'),
-        description: app.i18n.t(
-          'Popular styles our customers rave about.',
-        ),
+        description: app.i18n.t('Popular styles our customers rave about.'),
         buttonText: app.i18n.t('Shop now'),
         image: {
-          mobile:
-            '/homepage/top-rated.png',
-          desktop:
-            '/homepage/top-rated.png',
+          mobile: '/homepage/top-rated.png',
+          desktop: '/homepage/top-rated.png',
         },
         imageConfig: {
           fit: 'cover',
@@ -235,7 +235,7 @@ export default defineComponent({
 
 .article-item__meta-item:not(:last-child)::after {
   display: inline-block;
-  content: '';
+  content: "";
   width: 5px;
   height: 5px;
   margin: -1px 10px 0 10px;

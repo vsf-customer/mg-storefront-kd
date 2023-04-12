@@ -44,7 +44,59 @@
           :is-in-wishlist-icon="isAuthenticated ? 'heart_fill' : ''"
           @click:wishlist="addItemToWishlist(product)"
           @click:add-to-cart="addItemToCart({ product, quantity: 1 })"
-        />
+        >
+          <template
+            #image="{
+              image,
+              title,
+              link,
+              imageHeight,
+              imageWidth,
+              imageTag,
+              nuxtImgConfig,
+            }"
+          >
+            <SfButton
+              :link="link"
+              class="sf-button--pure sf-product-card__link"
+              data-testid="product-link"
+              :aria-label="'Go To Product'"
+              v-on="$listeners"
+            >
+              <template v-if="Array.isArray(image)">
+                <SfImage
+                  v-for="(picture, key) in image.slice(0, 2)"
+                  :key="key"
+                  class="sf-product-card__picture"
+                  :src="picture"
+                  :alt="title"
+                  :width="imageWidth"
+                  :height="imageHeight"
+                  :image-tag="imageTag"
+                  :nuxt-img-config="nuxtImgConfig"
+                >
+                  <template #placeholder>
+                    <div />
+                  </template>
+                </SfImage>
+              </template>
+              <SfImage
+                v-else
+                class="sf-product-card__image"
+                :src="image"
+                :alt="title"
+                :width="imageWidth"
+                :height="imageHeight"
+                :image-tag="imageTag"
+                :nuxt-img-config="nuxtImgConfig"
+              >
+                <template #placeholder>
+                  <div />
+                </template>
+              </SfImage>
+            </SfButton>
+          </template>
+        </SfProductCard>
       </div>
     </SfLoader>
   </SfSection>
@@ -52,16 +104,20 @@
 
 <script lang="ts">
 import {
-  SfButton, SfLoader, SfProductCard, SfSection,
+  SfButton,
+  SfLoader,
+  SfProductCard,
+  SfSection,
+  SfImage,
 } from '@storefront-ui/vue';
 
 import {
-  computed, defineComponent, onMounted, ref,
+  computed,
+  defineComponent,
+  onMounted,
+  ref,
 } from '@nuxtjs/composition-api';
-import {
-  useImage,
-  useProduct,
-} from '~/composables';
+import { useImage, useProduct } from '~/composables';
 import useWishlist from '~/modules/wishlist/composables/useWishlist';
 import productGetters from '~/modules/catalog/product/getters/productGetters';
 import { useUser } from '~/modules/customer/composables/useUser';
@@ -75,6 +131,7 @@ export default defineComponent({
     SfSection,
     SfLoader,
     SfButton,
+    SfImage,
   },
   props: {
     buttonText: {
@@ -92,11 +149,7 @@ export default defineComponent({
   },
   setup() {
     const { isAuthenticated } = useUser();
-    const {
-      getProductList,
-      loading,
-      getProductPath,
-    } = useProduct();
+    const { getProductList, loading, getProductPath } = useProduct();
     const { isInWishlist, addOrRemoveItem } = useWishlist();
     const { addItemToCart, isInCart } = useAddToCart();
     const products = ref([]);

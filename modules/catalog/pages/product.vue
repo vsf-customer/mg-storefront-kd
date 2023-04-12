@@ -23,9 +23,9 @@
     <!-- <LoadWhenVisible>
       <InstagramFeed />
     </LoadWhenVisible> -->
-    <LoadWhenVisible>
+    <!--<LoadWhenVisible>
       <MobileStoreBanner />
-    </LoadWhenVisible>
+    </LoadWhenVisible>-->
   </div>
 </template>
 <script lang="ts">
