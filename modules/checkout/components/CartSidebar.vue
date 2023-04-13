@@ -121,7 +121,11 @@
                       :nuxt-img-config="{
                         fit: 'cover',
                       }"
-                    />
+                    >
+                      <template #placeholder>
+                        <div />
+                      </template>
+                    </sfimage>
                   </template>
                   <template #input>
                     <div

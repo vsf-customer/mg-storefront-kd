@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="min-h-screen">
     <IconSprite />
     <CartSidebar v-if="isCartSidebarOpen" />
     <WishlistSidebar v-if="isWishlistSidebarOpen" />

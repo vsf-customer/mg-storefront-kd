@@ -1,5 +1,10 @@
 <template>
-  <transition-group appear class="grid-layout" name="slide" tag="div">
+  <transition-group
+    appear
+    class="grid-layout"
+    name="slide"
+    tag="div"
+  >
     <template v-if="loading">
       <div
         v-for="n in 4 * 3"
@@ -27,6 +32,28 @@
           $emit('click:add-to-cart', { product, quantity: 1 })
         "
       >
+        <template #title="{ title, link }">
+          <template v-if="!isContactLens">
+            <SfButton
+              class="sf-add-to-cart__button"
+              @click="$emit('click:add-to-cart', { product, quantity: 1 })"
+            >
+              {{ $t("Add to cart") }}
+            </SfButton>
+            <VirtualTryOnButton class="mt-2" />
+          </template>
+          <SfButton
+            :link="link"
+            class="sf-button--pure sf-product-card__link"
+            data-testid="product-link"
+            :aria-label="'Go To Product'"
+            v-on="$listeners"
+          >
+            <span class="sf-product-card__title">
+              {{ title }}
+            </span>
+          </SfButton>
+        </template>
         <template #price>
           <CategoryProductPrice :product="product" />
         </template>
@@ -87,14 +114,18 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, PropType, toRefs } from "@nuxtjs/composition-api";
-import { SfProductCard, SfButton, SfImage } from "@storefront-ui/vue";
-import { useImage } from "~/composables";
-import type { Product } from "~/modules/catalog/product/types";
+import {
+  defineComponent, PropType, toRefs, computed,
+} from '@nuxtjs/composition-api';
+import { SfProductCard, SfButton, SfImage } from '@storefront-ui/vue';
+import { useImage } from '~/composables';
+import type { Product } from '~/modules/catalog/product/types';
 
-import SkeletonLoader from "~/components/SkeletonLoader/index.vue";
-import CategoryProductPrice from "~/modules/catalog/category/components/views/CategoryProductPrice.vue";
-import { useProductsWithCommonProductCardProps } from "./useProductsWithCommonCardProps";
+import SkeletonLoader from '~/components/SkeletonLoader/index.vue';
+import CategoryProductPrice from '~/modules/catalog/category/components/views/CategoryProductPrice.vue';
+import VirtualTryOnButton from '~/components/VirtualTryOnButton.vue';
+import { contactLensesSKUs } from '~/components/constants';
+import { useProductsWithCommonProductCardProps } from './useProductsWithCommonCardProps';
 
 export default defineComponent({
   components: {
@@ -103,6 +134,7 @@ export default defineComponent({
     SkeletonLoader,
     SfButton,
     SfImage,
+    VirtualTryOnButton,
   },
   props: {
     products: {
@@ -112,17 +144,17 @@ export default defineComponent({
     pricesLoaded: Boolean,
     loading: Boolean,
   },
-  emits: ["click:wishlist", "click:add-to-cart"],
+  emits: ['click:wishlist', 'click:add-to-cart'],
   setup(props) {
     const {
       imageSizes: { productCard: imageSize },
     } = useImage();
     const { products } = toRefs(props);
-    const { productsWithCommonProductCardProps } =
-      useProductsWithCommonProductCardProps(products);
-
+    const { productsWithCommonProductCardProps } = useProductsWithCommonProductCardProps(products);
+    const isContactLens = computed(() => products.value.some((product) => contactLensesSKUs.includes(product.sku)));
     return {
       imageSize,
+      isContactLens,
       productsWithCommonProductCardProps,
     };
   },

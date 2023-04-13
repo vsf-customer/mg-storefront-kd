@@ -90,7 +90,7 @@ export default defineComponent({
   data() {
     return {
       aboutUs: ['Who we are', 'Quality in the details', 'Customer Reviews'],
-      departments: ['Women fashion', 'Men fashion', 'Kidswear', 'Home'],
+      departments: ['Women', 'Men', 'Kidswear', 'Home'],
       help: ['Customer service', 'Size guide', 'Contact us'],
       paymentsDelivery: ['Purchase terms', 'Guarantee'],
       social: ['facebook', 'pinterest', 'google', 'twitter', 'youtube'],
@@ -105,6 +105,7 @@ export default defineComponent({
 
 .footer {
   margin-bottom: 3.75rem;
+  box-shadow: 0 50vh 0 50vh var(--c-secondary);
   @include for-desktop {
     margin-bottom: 0;
   }

@@ -1,5 +1,10 @@
 <template>
-  <transition-group appear class="list-layout" name="slide" tag="div">
+  <transition-group
+    appear
+    class="list-layout"
+    name="slide"
+    tag="div"
+  >
     <template v-if="loading">
       <div
         v-for="n in 4 * 3"
@@ -31,18 +36,34 @@
             name="Size"
             value="XS"
           />
-          <SfProperty class="desktop-only" name="Color" value="white" />
+          <SfProperty
+            class="desktop-only"
+            name="Color"
+            value="white"
+          />
         </template>
         <template #price>
           <CategoryProductPrice :product="product" />
         </template>
-        <template #add-to-cart>
-          <SfButton
-            class="sf-add-to-cart__button"
-            @click="$emit('click:add-to-cart', { product, quantity: 1 })"
-          >
-            {{ $t("Add to cart") }}
-          </SfButton>
+        <template
+          v-if="!isContactLens"
+          #add-to-cart
+        >
+          <div class="flex gap-2">
+            <SfButton
+              class="sf-add-to-cart__button"
+              @click="$emit('click:add-to-cart', { product, quantity: 1 })"
+            >
+              {{ $t("Add to cart") }}
+            </SfButton>
+            <VirtualTryOnButton />
+          </div>
+        </template>
+        <template
+          v-else
+          #add-to-cart
+        >
+          <div />
         </template>
         <template
           #image="{
@@ -117,20 +138,23 @@ import {
   useContext,
   PropType,
   toRefs,
-} from "@nuxtjs/composition-api";
+  ComputedGetter,
+} from '@nuxtjs/composition-api';
 import {
   SfProductCardHorizontal,
   SfButton,
   SfProperty,
   SfImage,
-} from "@storefront-ui/vue";
-import SkeletonLoader from "~/components/SkeletonLoader/index.vue";
+} from '@storefront-ui/vue';
+import SkeletonLoader from '~/components/SkeletonLoader/index.vue';
 
-import { useImage } from "~/composables";
-import type { Product } from "~/modules/catalog/product/types";
-import { useUser } from "~/modules/customer/composables/useUser";
-import CategoryProductPrice from "~/modules/catalog/category/components/views/CategoryProductPrice.vue";
-import { useProductsWithCommonProductCardProps } from "./useProductsWithCommonCardProps";
+import { useImage } from '~/composables';
+import type { Product } from '~/modules/catalog/product/types';
+import { useUser } from '~/modules/customer/composables/useUser';
+import CategoryProductPrice from '~/modules/catalog/category/components/views/CategoryProductPrice.vue';
+import VirtualTryOnButton from '~/components/VirtualTryOnButton.vue';
+import { contactLensesSKUs } from '~/components/constants';
+import { useProductsWithCommonProductCardProps } from './useProductsWithCommonCardProps';
 
 export default defineComponent({
   components: {
@@ -140,6 +164,7 @@ export default defineComponent({
     SfProperty,
     SfImage,
     SkeletonLoader,
+    VirtualTryOnButton,
   },
   props: {
     products: {
@@ -149,27 +174,25 @@ export default defineComponent({
     pricesLoaded: Boolean,
     loading: Boolean,
   },
-  emits: ["click:wishlist", "click:add-to-cart"],
+  emits: ['click:wishlist', 'click:add-to-cart'],
   setup(props) {
     const context = useContext();
 
     const { products } = toRefs(props);
-    const { productsWithCommonProductCardProps } =
-      useProductsWithCommonProductCardProps(products);
+    const { productsWithCommonProductCardProps } = useProductsWithCommonProductCardProps(products);
 
-    const productsFormatted = computed(() =>
-      productsWithCommonProductCardProps.value.map((product) => {
-        const label = product.commonProps.isInWishlist
-          ? "Remove from Wishlist"
-          : "Save for later";
+    const productsFormatted = computed(() => productsWithCommonProductCardProps.value.map((product) => {
+      const label = product.commonProps.isInWishlist
+        ? 'Remove from Wishlist'
+        : 'Save for later';
 
-        return {
-          ...product,
-          wishlistMessage: context.i18n.t(label),
-        };
-      })
-    );
+      return {
+        ...product,
+        wishlistMessage: context.i18n.t(label),
+      };
+    }));
 
+    const isContactLens = computed(() => productsFormatted.value.some((product) => contactLensesSKUs.includes(product.sku)));
     const {
       imageSizes: { productCardHorizontal: imageSize },
     } = useImage();
@@ -177,6 +200,7 @@ export default defineComponent({
     const { isAuthenticated } = useUser();
 
     return {
+      isContactLens,
       productsFormatted,
       imageSize,
       isAuthenticated,

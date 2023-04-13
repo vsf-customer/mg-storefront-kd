@@ -77,24 +77,37 @@
           tag="p"
           class="product__description desktop-only"
         />
-        <SfAddToCart
+        <template v-if="!isContactLens">
+          <SfAddToCart
 
-          v-model="qty"
-          v-e2e="'product_add-to-cart'"
-          :disabled="isCartLoading || !canAddToCart(product, qty) || isFetching"
-          class="product__add-to-cart"
-          @click="setProduct({ productNew: product, quantity: parseInt(qty) })"
-        >
-          <template #add-to-cart-btn>
-            <SfButton
-              class="sf-add-to-cart__button"
-              :disabled="isCartLoading || !canAddToCart(product, qty) || isFetching"
-              @click="setProduct({ productNew: product, quantity: parseInt(qty) })"
+            v-model="qty"
+            v-e2e="'product_add-to-cart'"
+            :disabled="isCartLoading || !canAddToCart(product, qty) || isFetching"
+            class="product__add-to-cart"
+            @click="setProduct({ productNew: product, quantity: parseInt(qty) })"
+          >
+            <template
+
+              #add-to-cart-btn
             >
-              {{ $t('Add to cart') }}
-            </SfButton>
-          </template>
-        </SfAddToCart>
+              <div class="flex flex-col gap-2 w-full">
+                <SfButton
+                  class="sf-add-to-cart__button"
+                  :disabled="isCartLoading || !canAddToCart(product, qty) || isFetching"
+                  @click="setProduct({ productNew: product, quantity: parseInt(qty) })"
+                >
+                  {{ $t('Add to cart') }}
+                </SfButton>
+                <VirtualTryOnButton />
+              </div>
+            </template>
+          </SfAddToCart>
+        </template>
+        <template
+          v-else
+        >
+          <div>Prescription</div>
+        </template>
         <SfAlert
           :style="{ visibility: !!addToCartError ? 'visible' : 'hidden'}"
           class="product__add-to-cart-error"
@@ -160,6 +173,8 @@ import ProductTabs from '~/modules/catalog/product/components/tabs/ProductTabs.v
 import { useProductGallery } from '~/modules/catalog/product/composables/useProductGallery';
 import { TabsConfig, useProductTabs } from '~/modules/catalog/product/composables/useProductTabs';
 import { usePrescription } from '~/composables/usePrescription';
+import VirtualTryOnButton from '~/components/VirtualTryOnButton.vue';
+import { contactLensesSKUs } from '~/components/constants';
 
 export default defineComponent({
   name: 'SimpleProduct',
@@ -177,6 +192,7 @@ export default defineComponent({
     AddToWishlist,
     SvgImage,
     ProductTabs,
+    VirtualTryOnButton,
   },
   transition: 'fade',
   props: {
@@ -211,9 +227,12 @@ export default defineComponent({
     const averageRating = computed(() => getAverageRating(props.product));
     const addToCartError = computed(() => cartError.value?.addItem?.message);
 
+    const isContactLens = computed(() => contactLensesSKUs.includes(props.product?.sku));
+
     return {
       addItem,
       setProduct,
+      isContactLens,
       addItemToWishlist: addOrRemoveItem,
       averageRating,
       totalReviews,
