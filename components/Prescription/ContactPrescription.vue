@@ -1,10 +1,10 @@
 <template>
   <div class="grid grid-rows-3 w-full text-sm text-center raleway items-center gap-2 border border-gray-400 pb-5">
-    <div class="grid grid-cols-5 w-full gap-3 font-semibold self-end">
+    <div class="grid grid-cols-contacts w-full gap-3 font-semibold self-end">
       <div>
         Eye
       </div>
-      <div class="-ml-1">
+      <div>
         Power/Sphere
       </div>
       <div>
@@ -17,7 +17,7 @@
         Price/Box
       </div>
     </div>
-    <div class="grid grid-cols-5 w-full gap-3 items-center justify-center">
+    <div class="grid grid-cols-contacts w-full gap-3 items-center justify-center">
       <div>R (OD)</div>
       <ZnSelectField
         v-model="rsph"
@@ -40,7 +40,7 @@
         />
       </div>
     </div>
-    <div class="grid grid-cols-5 w-full gap-3 items-center justify-center">
+    <div class="grid grid-cols-contacts w-full gap-3 items-center justify-center">
       <div>L (OS)</div>
       <ZnSelectField
         v-model="lsph"
