@@ -219,7 +219,7 @@ export default {
 }
 .v-select {
   .vs__dropdown-toggle {
-    @apply h-12 rounded-none;
+    @apply h-10 rounded-none;
     border: 1px solid #666666;
 
   }

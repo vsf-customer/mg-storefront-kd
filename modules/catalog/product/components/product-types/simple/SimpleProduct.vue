@@ -106,7 +106,7 @@
         <template
           v-else
         >
-          <div>Prescription</div>
+          <ContactPrescription :product="product" />
         </template>
         <SfAlert
           :style="{ visibility: !!addToCartError ? 'visible' : 'hidden'}"
@@ -175,6 +175,7 @@ import { TabsConfig, useProductTabs } from '~/modules/catalog/product/composable
 import { usePrescription } from '~/composables/usePrescription';
 import VirtualTryOnButton from '~/components/VirtualTryOnButton.vue';
 import { contactLensesSKUs } from '~/components/constants';
+import ContactPrescription from '~/components/Prescription/ContactPrescription.vue';
 
 export default defineComponent({
   name: 'SimpleProduct',
@@ -193,6 +194,7 @@ export default defineComponent({
     SvgImage,
     ProductTabs,
     VirtualTryOnButton,
+    ContactPrescription,
   },
   transition: 'fade',
   props: {
@@ -221,13 +223,18 @@ export default defineComponent({
       () => props.product?.short_description?.html || '',
     );
 
-    const productPrice = computed(() => getProductPrice(props.product).regular);
-    const productSpecialPrice = computed(() => getProductPrice(props.product).special);
+    const isContactLens = computed(() => contactLensesSKUs.includes(props.product?.sku));
+    const productPrice = computed(() => {
+      const price = getProductPrice(props.product).regular;
+      return !isContactLens.value ? price : price * 2;
+    });
+    const productSpecialPrice = computed(() => {
+      const price = getProductPrice(props.product).special;
+      return !isContactLens.value ? price : price * 2;
+    });
     const totalReviews = computed(() => getTotalReviews(props.product));
     const averageRating = computed(() => getAverageRating(props.product));
     const addToCartError = computed(() => cartError.value?.addItem?.message);
-
-    const isContactLens = computed(() => contactLensesSKUs.includes(props.product?.sku));
 
     return {
       addItem,
