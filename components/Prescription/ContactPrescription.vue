@@ -34,7 +34,7 @@
       <div>14</div>
       <div>
         <SfPrice
-          class="items-center justify-center"
+          class="!items-center !justify-center"
           :regular="$fc(productPrice)"
           :special="productSpecialPrice && $fc(productSpecialPrice)"
         />
@@ -57,7 +57,7 @@
       <div>14</div>
       <div>
         <SfPrice
-          class="items-center justify-center"
+          class="!items-center !justify-center"
           :regular="$fc(productPrice)"
           :special="productSpecialPrice && $fc(productSpecialPrice)"
         />
