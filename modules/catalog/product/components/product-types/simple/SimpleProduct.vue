@@ -162,7 +162,6 @@ import {
   defineComponent,
   PropType,
   toRef,
-  watch,
 } from '@nuxtjs/composition-api';
 
 import {
@@ -248,12 +247,6 @@ export default defineComponent({
     const totalReviews = computed(() => getTotalReviews(props.product));
     const averageRating = computed(() => getAverageRating(props.product));
     const addToCartError = computed(() => cartError.value?.addItem?.message);
-
-    watch(isContactLens, (val) => {
-      if (val) {
-        qty.value = 2;
-      }
-    });
 
     return {
       addItem,
