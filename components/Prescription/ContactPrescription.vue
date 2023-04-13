@@ -4,7 +4,7 @@
       <div>
         Eye
       </div>
-      <div class="grid">
+      <div class="-ml-1">
         Power/Sphere
       </div>
       <div>

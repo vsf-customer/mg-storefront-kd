@@ -5,7 +5,7 @@
   >
     <div
       v-if="isLoading"
-      class="flex items-center justify-center h-screen w-full"
+      class="flex items-center justify-center h-[90vh] w-full"
       data-test="divLoading"
     >
       <img
