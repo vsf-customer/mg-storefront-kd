@@ -14,7 +14,7 @@
     >
       <div
         ref="dualSelectElm"
-        class="flex dual-select items-center cursor-pointer h-12 px-1"
+        class="flex dual-select items-center cursor-pointer h-10 px-1"
         @click.prevent="toggleActive(true)"
       >
         <div
