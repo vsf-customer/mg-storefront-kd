@@ -5,13 +5,16 @@
         Eye
       </div>
       <div>
-        Power/Sphere
+        Power/Sph
       </div>
       <div>
         BC
       </div>
       <div>
         Dia
+      </div>
+      <div>
+        Qty
       </div>
       <div>
         Price/Box
@@ -32,6 +35,13 @@
         :options="selectOptions"
       />
       <div>14</div>
+      <ZnSelectField
+        v-model="rqty"
+        :searchable="false"
+        :show-label="false"
+        :options="qtyOptions"
+        @change="emitQty"
+      />
       <div>
         <SfPrice
           class="!items-center !justify-center"
@@ -55,6 +65,13 @@
         :options="selectOptions"
       />
       <div>14</div>
+      <ZnSelectField
+        v-model="lqty"
+        :searchable="false"
+        :show-label="false"
+        :options="qtyOptions"
+        @change="emitQty"
+      />
       <div>
         <SfPrice
           class="!items-center !justify-center"
@@ -85,27 +102,40 @@ export default defineComponent({
       required: true,
     },
   },
-  setup(props) {
+  emits: ['update-qty'],
+  setup(props, { emit }) {
     const selectOptions = Array.from({ length: 81 }, (_, i) => {
       const number = -12 + i * 0.25;
       return number.toFixed(2);
     });
+    const qtyOptions = Array.from({ length: 10 }, (_, i) => i);
     const rsph = ref('0.00');
     const rbc = ref('0.00');
     const lsph = ref('0.00');
     const lbc = ref('0.00');
+    const rqty = ref('1');
+    const lqty = ref('1');
 
     const productPrice = computed(() => getProductPrice(props.product).regular);
     const productSpecialPrice = computed(() => getProductPrice(props.product).special);
 
+    const emitQty = () => {
+      const qty = Number(rqty.value) + Number(lqty.value);
+      emit('update-qty', qty);
+    };
+
     return {
       selectOptions,
+      qtyOptions,
       productPrice,
       productSpecialPrice,
       rsph,
       rbc,
       lsph,
       lbc,
+      rqty,
+      lqty,
+      emitQty,
     };
   },
 });

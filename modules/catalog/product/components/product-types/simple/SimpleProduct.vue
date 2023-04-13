@@ -107,11 +107,14 @@
           v-else
         >
           <div class="flex flex-col gap-3">
-            <ContactPrescription :product="product" />
+            <ContactPrescription
+              :product="product"
+              @update-qty="(newQty) => qty = newQty"
+            />
             <SfButton
               class="sf-add-to-cart__button"
-              :disabled="isCartLoading || !canAddToCart(product, qty) || isFetching"
-              @click="addItem({ product, quantity: 2 })"
+              :disabled="isCartLoading || !canAddToCart(product, qty) || isFetching || qty < 1"
+              @click="addItem({ product, quantity: parseInt(qty) })"
             >
               Add to cart
             </SfButton>
@@ -159,6 +162,7 @@ import {
   defineComponent,
   PropType,
   toRef,
+  watch,
 } from '@nuxtjs/composition-api';
 
 import {
@@ -235,15 +239,21 @@ export default defineComponent({
     const isContactLens = computed(() => contactLensesSKUs.includes(props.product?.sku));
     const productPrice = computed(() => {
       const price = getProductPrice(props.product).regular;
-      return !isContactLens.value ? price : price * 2;
+      return !isContactLens.value ? price : price * qty.value;
     });
     const productSpecialPrice = computed(() => {
       const price = getProductPrice(props.product).special;
-      return !isContactLens.value ? price : price * 2;
+      return !isContactLens.value ? price : price * qty.value;
     });
     const totalReviews = computed(() => getTotalReviews(props.product));
     const averageRating = computed(() => getAverageRating(props.product));
     const addToCartError = computed(() => cartError.value?.addItem?.message);
+
+    watch(isContactLens, (val) => {
+      if (val) {
+        qty.value = 2;
+      }
+    });
 
     return {
       addItem,

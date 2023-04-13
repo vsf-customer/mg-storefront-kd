@@ -25,7 +25,7 @@ module.exports = {
         'gray-border': '#D8D1CA',
       },
       gridTemplateColumns: {
-        contacts: 'repeat(3, minmax(0, 1fr)) 30px minmax(0, 1fr)',
+        contacts: '60px repeat(2, minmax(0, 1fr)) 30px repeat(2,minmax(0, 1fr))',
       },
     },
   },
