@@ -106,7 +106,16 @@
         <template
           v-else
         >
-          <ContactPrescription :product="product" />
+          <div class="flex flex-col gap-3">
+            <ContactPrescription :product="product" />
+            <SfButton
+              class="sf-add-to-cart__button"
+              :disabled="isCartLoading || !canAddToCart(product, qty) || isFetching"
+              @click="addItem({ product, quantity: 2 })"
+            >
+              Add to cart
+            </SfButton>
+          </div>
         </template>
         <SfAlert
           :style="{ visibility: !!addToCartError ? 'visible' : 'hidden'}"
