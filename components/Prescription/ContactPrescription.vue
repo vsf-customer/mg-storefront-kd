@@ -114,7 +114,7 @@ export default defineComponent({
     const lsph = ref('0.00');
     const lbc = ref('0.00');
     const rqty = ref('1');
-    const lqty = ref(null);
+    const lqty = ref('1');
 
     const productPrice = computed(() => getProductPrice(props.product).regular);
     const productSpecialPrice = computed(() => getProductPrice(props.product).special);
